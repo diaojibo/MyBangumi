@@ -19,6 +19,7 @@ import android.widget.Toolbar;
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.adapter.TabPagerAdapter;
 import com.example.rocklct.bangumi.mybangumi.testActivity;
+import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private void initTabs() {
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        //取得一个自定义PagerAdapter的实例
-        mAdapter = new TabPagerAdapter(getSupportFragmentManager());
+        //取得一个自定义PagerAdapter的实例,用了自定义的类来取的对应的Adapter，要传入一个Fragment管理器
+        mAdapter = new GetTabAdapter(getSupportFragmentManager()).getAnimationTabAdapter();
         mViewPager = (ViewPager) findViewById(R.id.myviewpager);
 
         //讲ViewPager和Adapter绑定起来获得数据

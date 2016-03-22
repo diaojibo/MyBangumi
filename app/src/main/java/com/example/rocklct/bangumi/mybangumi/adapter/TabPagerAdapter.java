@@ -9,8 +9,10 @@ import java.util.ArrayList;
 /**
  * Created by rocklct on 2016/3/19.
  */
+//实例FragmentPagerAdapter
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
+    //两个容器分别传入应要显示的tab标签和Fragment
     private final ArrayList<String> tab_title_list = new ArrayList<>();
     private final ArrayList<Fragment> fragmentList = new ArrayList<>();
     private FragmentManager mFragmentManaget;
@@ -19,6 +21,7 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    //这个方法用于在外面添加tab标签名和对应的Fragment给adapter
     public void addFragment(String title, Fragment fragment) {
         fragmentList.add(fragment);
         tab_title_list.add(title);

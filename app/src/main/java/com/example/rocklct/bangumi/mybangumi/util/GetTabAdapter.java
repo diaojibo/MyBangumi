@@ -10,6 +10,8 @@ import com.example.rocklct.bangumi.mybangumi.fragment.AnimationTop;
 /**
  * Created by rocklct on 2016/3/22.
  */
+
+//此方法用于返回对应的Adapter用来绑定pager和tabs
 public class GetTabAdapter {
     private TabPagerAdapter tpa;
     private FragmentManager fm;
