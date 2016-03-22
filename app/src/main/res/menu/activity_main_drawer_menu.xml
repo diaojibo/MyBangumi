@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:icon="@drawable/ic_rowing_black_24dp"
+            android:id="@+id/animation"
+            android:title="动画" />
+        <item
+            android:icon="@drawable/ic_book_black_24dp"
+            android:id="@+id/book"
+            android:title="书籍" />
+        <item
+            android:icon="@drawable/ic_music_note_black_24dp"
+            android:id="@+id/music"
+            android:title="音乐" />
+        <item
+            android:icon="@drawable/ic_videogame_asset_black_24dp"
+            android:id="@+id/game"
+            android:title="游戏" />
+    </group>
+</menu>
