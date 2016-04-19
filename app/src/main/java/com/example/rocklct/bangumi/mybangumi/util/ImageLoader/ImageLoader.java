@@ -80,7 +80,7 @@ public class ImageLoader {
 
     }
 
-    //双缩模式来执行单例模式获取实例
+    //双锁模式来执行单例模式获取实例
     public static ImageLoader getmInstance() {
         if (mInstance == null) {
             synchronized (ImageLoader.class) {
@@ -130,7 +130,7 @@ public class ImageLoader {
     public void loadImage(final String url, ImageView imageView, ImageLoadingListener listener) {
         Log.d("url", url);
 
-        //吃否允许使用移动网络
+        //是否允许使用移动网络
         if (Setting.isMobileConn() && !Setting.isAllowMobile()) {
             return;
         }
@@ -154,9 +154,11 @@ public class ImageLoader {
                 public void run() {
                     File file = mImageCache.fileCache.getFile(url);
                     if(!file.exists()){
-                        //
+                        //如果没有文件缓存，就调用网络线程获取图片
                         mExecutor.execute(new LoadNetworkImageTask(info,mHandler));
 
+                    }else {
+                        mDecodeExecutor.execute(new LoadNetworkImageTask(info,mHandler));
                     }
                 }
             });

@@ -10,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.example.rocklct.bangumi.mybangumi.BangumiApp;
 import com.example.rocklct.bangumi.mybangumi.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +21,20 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/3/24.
  */
-public abstract class AbstractFragment extends Fragment {
+public abstract class AbstractFragment extends Fragment implements HttpManager.OnConnectListener{
+   public HttpManager mHttpManager;
    protected RecyclerView mRecyclerView;
    protected ProgressBar mProgressBar;
-   protected List<BaseBean> mdata;
+   protected List<BaseBean> mData;
    protected FloatingActionButton mFloatingActionButton;
    protected boolean isCreated = false;
    protected boolean isRefresh = false;
+   public Gson mGson;
    protected SwipeRefreshLayout mSwipeRefreshLayout;
    public AbstractFragment(){
-      mdata = new ArrayList<>();
+      mGson = BangumiApp.getmInstance().getGson();
+      mHttpManager = new HttpManager(this);
+      mData = new ArrayList<>();
    }
 
    @Override

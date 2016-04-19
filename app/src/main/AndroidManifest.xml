@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:name=".BangumiApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/toolbar_title"
         android:supportsRtl="true"
