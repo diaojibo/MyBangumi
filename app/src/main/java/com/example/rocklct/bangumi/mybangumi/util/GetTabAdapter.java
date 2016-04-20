@@ -2,10 +2,10 @@ package com.example.rocklct.bangumi.mybangumi.util;
 
 import android.support.v4.app.FragmentManager;
 
-import com.example.rocklct.bangumi.mybangumi.adapter.TabPagerAdapter;
-import com.example.rocklct.bangumi.mybangumi.fragment.AnimationAll;
-import com.example.rocklct.bangumi.mybangumi.fragment.AnimationJournal;
-import com.example.rocklct.bangumi.mybangumi.fragment.AnimationTop;
+import com.example.rocklct.bangumi.mybangumi.ui.adapter.TabPagerAdapter;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationAll;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationJournal;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationTop;
 
 /**
  * Created by rocklct on 2016/3/22.

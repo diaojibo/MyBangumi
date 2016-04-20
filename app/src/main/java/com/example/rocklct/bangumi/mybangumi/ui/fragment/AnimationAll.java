@@ -1,24 +1,23 @@
-package com.example.rocklct.bangumi.mybangumi.fragment;
+package com.example.rocklct.bangumi.mybangumi.ui.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.adapter.AnimationAllAdapter;
+import com.example.rocklct.bangumi.mybangumi.ui.adapter.AnimationAllAdapter;
 import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
+import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class AnimationAll extends AbstractFragment implements HttpManager.OnConn
     private boolean isRefresh = false;
     private final Gson gson = new Gson();
     private View loadView;
-    private TextView tv_complete;
+    private TextView tv_more_information;
     private TextView tv_normal;
     private LinearLayout loading_layout;
 
@@ -57,10 +56,21 @@ public class AnimationAll extends AbstractFragment implements HttpManager.OnConn
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_base);
         mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_base);
         initView();
-
+        initLoadView();
         return view;
     }
 
+    private void initLoadView(){
+        loading_layout = (LinearLayout) loadView.findViewById(R.id.loading_layout);
+        tv_more_information = (TextView) loadView.findViewById(R.id.tv_more_information);
+        tv_more_information.setVisibility(View.VISIBLE);
+        tv_more_information.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
 
     public static AnimationAll getInstance(){
         AnimationAll fragment = new AnimationAll();
@@ -84,6 +94,24 @@ public class AnimationAll extends AbstractFragment implements HttpManager.OnConn
         mSwipeRefreshLayout.setEnabled(false);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new AnimationAllAdapter(getContext(),mData);
+        mRecyclerView.setAdapter(mAdapter);
+        mManager = new GridLayoutManager(getContext(),3);
+        mRecyclerView.setLayoutManager(mManager);
+        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
+            @Override
+            public int getSpanSize(int position) {
+                int size = 1;
+                switch (mAdapter.getItemViewType(position)){
+                    case AnimationAllAdapter.TYPE_TITLE:
+                    case AnimationAllAdapter.TYPE_LOAD:
+                        size = mManager.getSpanCount();
+                        break;
+                }
+                return size;
+            }
+        });
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setOnScrollListener(new OnScrollPauseListener());
 
     }
 
@@ -94,6 +122,10 @@ public class AnimationAll extends AbstractFragment implements HttpManager.OnConn
 
     @Override
     public void OnError(int tag) {
+
+    }
+
+    public void load_thumbnail(){
 
     }
 }

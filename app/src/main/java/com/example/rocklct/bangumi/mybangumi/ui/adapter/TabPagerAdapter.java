@@ -1,4 +1,4 @@
-package com.example.rocklct.bangumi.mybangumi.adapter;
+package com.example.rocklct.bangumi.mybangumi.ui.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,10 +1,10 @@
-package com.example.rocklct.bangumi.mybangumi.adapter;
+package com.example.rocklct.bangumi.mybangumi.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.rocklct.bangumi.mybangumi.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +18,8 @@ public class AbstractAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int TYPE_ITEM = 0;
     public static final int TYPE_LOAD = 1;
     public static final int TYPE_HEADER = 2;
+
+    //mData就是要传进去的数据
     public List<BaseBean> mData;
     public Map<Integer, View> mItems;
 

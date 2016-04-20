@@ -3,4 +3,5 @@
     <string name="toolbar_title">Bangumi</string>
     <string name="nav_drawer_open">Open Navigation drawer</string>
     <string name="nav_drawer_close">Close Navigation drawer</string>
+    <string name="have_no_score">暂无评分</string>
 </resources>

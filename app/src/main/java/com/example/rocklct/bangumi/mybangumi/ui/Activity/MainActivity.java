@@ -1,8 +1,6 @@
-package com.example.rocklct.bangumi.mybangumi.ui;
+package com.example.rocklct.bangumi.mybangumi.ui.Activity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,10 +12,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toolbar;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.adapter.TabPagerAdapter;
 import com.example.rocklct.bangumi.mybangumi.testActivity;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 

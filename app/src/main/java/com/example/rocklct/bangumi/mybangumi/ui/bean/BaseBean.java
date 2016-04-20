@@ -1,4 +1,4 @@
-package com.example.rocklct.bangumi.mybangumi.bean;
+package com.example.rocklct.bangumi.mybangumi.ui.bean;
 
 import java.io.Serializable;
 

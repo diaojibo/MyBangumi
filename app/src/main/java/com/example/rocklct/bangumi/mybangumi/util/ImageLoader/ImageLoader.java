@@ -124,7 +124,7 @@ public class ImageLoader {
     }
 
     public void loadImage(String url, ImageView imageView) {
-
+        loadImage(url,imageView,null);
     }
 
     public void loadImage(final String url, ImageView imageView, ImageLoadingListener listener) {

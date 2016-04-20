@@ -70,4 +70,9 @@ public class Util {
 //        options.inSampleSize
         return null;
     }
+
+    public static boolean isZero(float score){
+        final int temp = (int) score;
+        return temp == 0;
+    }
 }

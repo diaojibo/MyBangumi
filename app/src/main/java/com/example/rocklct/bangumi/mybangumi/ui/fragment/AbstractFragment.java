@@ -1,4 +1,4 @@
-package com.example.rocklct.bangumi.mybangumi.fragment;
+package com.example.rocklct.bangumi.mybangumi.ui.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.rocklct.bangumi.mybangumi.BangumiApp;
-import com.example.rocklct.bangumi.mybangumi.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
 import com.google.gson.Gson;
 
