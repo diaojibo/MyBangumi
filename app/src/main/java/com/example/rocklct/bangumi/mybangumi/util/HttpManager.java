@@ -3,6 +3,8 @@ package com.example.rocklct.bangumi.mybangumi.util;
 import android.os.Handler;
 import android.os.Message;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/4/19.
  */
@@ -34,5 +36,11 @@ public class HttpManager {
     public interface OnConnectListener{
         void OnSuccess(String result,int tag);
         void OnError(int tag);
+    }
+
+    private List getTopItem(String url,int page){
+
+
+        return null;
     }
 }
