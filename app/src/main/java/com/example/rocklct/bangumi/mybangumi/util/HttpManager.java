@@ -4,12 +4,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.DocumentsContract;
 
+import com.example.rocklct.bangumi.mybangumi.ui.bean.RankBean;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,8 +50,15 @@ public class HttpManager {
         void OnError(int tag);
     }
 
+
+
+
+
+    //这里是一个爬虫函数，去真正的bangumi网站爬去排行榜得到item的id号
     private List getTopItem(String url, int page) {
         url = url + "&page=" + page;
+        List list = new ArrayList();
+
         try {
             Document doc = Jsoup.connect(url).get();
             Element section = doc.getElementById("browserItemList");
@@ -58,12 +68,13 @@ public class HttpManager {
                 num++;
                 int rank = num + (page - 1) * 24;
                 String item = (li.attr("id").split("_"))[1];
+                list.add(new RankBean(rank,item));
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return null;
+        return list;
     }
 }
