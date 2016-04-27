@@ -1,4 +1,4 @@
-package com.example.rocklct.bangumi.mybangumi.ui.Activity;
+package com.example.rocklct.bangumi.mybangumi.ui.activity;
 
 /**
  * Created by Administrator on 2016/4/19.

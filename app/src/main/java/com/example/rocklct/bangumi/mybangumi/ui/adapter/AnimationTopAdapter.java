@@ -8,10 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.constants.Setting;
-import com.example.rocklct.bangumi.mybangumi.ui.Activity.DetailActivity;
-import com.example.rocklct.bangumi.mybangumi.ui.bean.AnimationBean;
+import com.example.rocklct.bangumi.mybangumi.ui.activity.DetailActivity;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.LoadViewHolder;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.ThumbnailViewHolder;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.ImageLoader;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/3/24.
  */
-public class AnimationAllAdapter extends AbstractAdapter {
+public class AnimationTopAdapter extends AbstractAdapter {
 
     private ImageLoader mImageLoader;
     public static final int TYPE_ITEM = 1;
@@ -31,7 +30,7 @@ public class AnimationAllAdapter extends AbstractAdapter {
     public static final int TYPE_LOAD = 3;
     private Context mContext;
 
-    public AnimationAllAdapter(Context mContext, List<BaseBean> data) {
+    public AnimationTopAdapter(Context mContext, List<BaseBean> data) {
         this.mData = data;
         mImageLoader = ImageLoader.getmInstance();
         this.mContext = mContext;
@@ -80,16 +79,16 @@ public class AnimationAllAdapter extends AbstractAdapter {
         super.onBindViewHolder(holder, position);
         if (holder.getItemViewType() == TYPE_ITEM) {
             ThumbnailViewHolder thumbnailViewHolder = (ThumbnailViewHolder) holder;
-            final AnimationBean.SubjectBean bean = (AnimationBean.SubjectBean) mData.get(position);
-            mImageLoader.loadImage(Setting.getImageUrl(bean.getImages()), thumbnailViewHolder.thumbnail_iv);
-            thumbnailViewHolder.thumbnail_title.setText(bean.getTitle());
+            final ThumbnailBean bean = (ThumbnailBean) mData.get(position);
+            mImageLoader.loadImage(bean.imageurl, thumbnailViewHolder.thumbnail_iv);
+            thumbnailViewHolder.thumbnail_title.setText(bean.title);
             thumbnailViewHolder.thumbnail_title.setSelected(true);
-            if (Util.isZero(bean.getRating().getAverage())) {
+            if (Util.isZero(bean.rate)) {
                 thumbnailViewHolder.thumbnail_score.setText(mContext.getString(R.string.have_no_score));
                 thumbnailViewHolder.thumbnail_rating.setVisibility(View.GONE);
             } else {
-                thumbnailViewHolder.thumbnail_score.setText(String.valueOf(bean.getRating().getAverage()));
-                thumbnailViewHolder.thumbnail_rating.setRating(bean.getRating().getAverage() / 2);
+                thumbnailViewHolder.thumbnail_score.setText(String.valueOf(bean.rate));
+                thumbnailViewHolder.thumbnail_rating.setRating(bean.rate / 2);
                 thumbnailViewHolder.thumbnail_rating.setVisibility(View.VISIBLE);
             }
             thumbnailViewHolder.setOnRecycleViewItemClick(new OnRecycleViewItemClick() {

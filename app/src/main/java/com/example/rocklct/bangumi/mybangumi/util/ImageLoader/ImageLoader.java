@@ -9,7 +9,6 @@ import com.example.rocklct.bangumi.mybangumi.constants.Setting;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Objects;
 import java.util.WeakHashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -21,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Handler;
 
 /**
  * Created by rocklct on 2016/3/28.

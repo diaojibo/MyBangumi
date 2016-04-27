@@ -6,5 +6,7 @@ package com.example.rocklct.bangumi.mybangumi.constants;
 public class BangumiAPi {
 
     public static final String getTopAnimation = "http://bangumi.tv/anime/browser?sort=rank";
+    public static final String getSimpleItemInfo = "http://api.bgm.tv/subject/";
+
 
 }

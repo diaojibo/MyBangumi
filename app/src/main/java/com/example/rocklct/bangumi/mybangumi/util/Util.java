@@ -1,8 +1,10 @@
 package com.example.rocklct.bangumi.mybangumi.util;
 
+import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.View;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,38 +43,84 @@ public class Util {
     public static void readStream(InputStream is, OutputStream os) throws IOException {
         byte[] buffer = new byte[1024];
         int len = 0;
-        while ((len = is.read(buffer))!=-1){
-            os.write(buffer,0,len);
+        while ((len = is.read(buffer)) != -1) {
+            os.write(buffer, 0, len);
         }
         is.close();
         os.close();
     }
 
 
-    public  static int calculateInSampleSize(BitmapFactory.Options options,int reqWidth,int reqHeight){
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int width = options.outWidth;
         final int height = options.outHeight;
 
-        if(reqWidth == 0){
+        if (reqWidth == 0) {
 
         }
         return 0;
     }
 
 
-    public static Bitmap decodeBitmapFile(File file,int reqWidth,int reqHeight) throws FileNotFoundException {
-        Log.d("Bounds","width="+reqWidth+"-height="+reqHeight);
+    public static Bitmap decodeBitmapFile(File file, int reqWidth, int reqHeight) throws FileNotFoundException {
+        Log.d("Bounds", "width=" + reqWidth + "-height=" + reqHeight);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         String pathname = file.getPath() + file.getName();
-        Log.d("pathname",pathname);
-        BitmapFactory.decodeStream(new FileInputStream(file),null,options);
+        Log.d("pathname", pathname);
+        BitmapFactory.decodeStream(new FileInputStream(file), null, options);
 //        options.inSampleSize
         return null;
     }
 
-    public static boolean isZero(float score){
+    public static boolean isZero(float score) {
         final int temp = (int) score;
         return temp == 0;
+    }
+
+    /**
+     * 渐变动画
+     *
+     * @param outView
+     * @param inView
+     */
+    public static void loadAnima(final View outView, View inView) {
+        if (outView == null || inView == null) {
+            Log.i("null", "true");
+            return;
+        }
+        if (!outView.isShown())
+            return;
+        int time = 200;
+        inView.setAlpha(0f);
+        inView.setVisibility(View.VISIBLE);
+        inView.animate()
+                .alpha(1f)
+                .setDuration(time)
+                .setListener(null);
+        outView.animate()
+                .alpha(0f)
+                .setDuration(time)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        outView.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
     }
 }

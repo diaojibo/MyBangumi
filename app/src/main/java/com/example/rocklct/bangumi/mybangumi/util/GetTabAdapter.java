@@ -3,7 +3,6 @@ package com.example.rocklct.bangumi.mybangumi.util;
 import android.support.v4.app.FragmentManager;
 
 import com.example.rocklct.bangumi.mybangumi.ui.adapter.TabPagerAdapter;
-import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationAll;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationJournal;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationTop;
 
@@ -22,9 +21,9 @@ public class GetTabAdapter {
 
     public TabPagerAdapter getAnimationTabAdapter() {
         tpa = new TabPagerAdapter(fm);
-        tpa.addFragment("全部",new AnimationAll());
         tpa.addFragment("排行榜",new AnimationTop());
         tpa.addFragment("日志",new AnimationJournal());
+        tpa.addFragment("新番",new AnimationJournal());
         return tpa;
     }
 

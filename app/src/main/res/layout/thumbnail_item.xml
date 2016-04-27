@@ -11,13 +11,13 @@
     <LinearLayout
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <ImageView
             android:id="@+id/thumbnail_iv"
             android:scaleType="fitXY"
             android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:layout_height="215dp" />
 
         <TextView
             android:layout_marginTop="10dp"
@@ -39,6 +39,9 @@
             android:layout_height="wrap_content">
 
             <RatingBar
+                style="@android:style/Widget.DeviceDefault.RatingBar.Small"
+                android:stepSize="0.5"
+                android:maxWidth="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/thumbnail_item_rating"

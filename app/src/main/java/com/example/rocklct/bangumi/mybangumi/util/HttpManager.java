@@ -1,10 +1,13 @@
 package com.example.rocklct.bangumi.mybangumi.util;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.DocumentsContract;
+import android.util.Log;
 
-import com.example.rocklct.bangumi.mybangumi.ui.bean.RankBean;
+import com.example.rocklct.bangumi.mybangumi.constants.BangumiAPi;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/4/19.
+ * Created by rocklct on 2016/4/19.
  */
 public class HttpManager {
 
@@ -38,24 +41,24 @@ public class HttpManager {
             if (result == null || result.isEmpty()) {
                 onConnectListener.OnError(tag);
             } else {
-                onConnectListener.OnSuccess(result, msg.what);
+                List<BaseBean> list = msg.getData().getParcelableArrayList("data");
+                onConnectListener.OnSuccess(list);
+
             }
 
         }
     };
 
     public interface OnConnectListener {
-        void OnSuccess(String result, int tag);
+//        void OnSuccess(String result, int tag);
+        void OnSuccess(List result);
 
         void OnError(int tag);
     }
 
 
-
-
-
     //这里是一个爬虫函数，去真正的bangumi网站爬去排行榜得到item的id号
-    private List getTopItem(String url, int page) {
+    public List getThumbnailItem(String url, int page) {
         url = url + "&page=" + page;
         List list = new ArrayList();
 
@@ -65,10 +68,39 @@ public class HttpManager {
             Elements lists = section.getElementsByTag("li");
             int num = 0;
             for (Element li : lists) {
+                float rate = 0;
+                String imgurl = "";
+                String title = "";
+
+                //爬取页面获取评分
+                Elements rate_es = li.getElementsByClass("fade");
+                for (Element rate_e : rate_es) {
+                    rate = Float.parseFloat(rate_e.text());
+                }
+
+                //抓取图片的链接
+                Elements imgs = li.getElementsByTag("img");
+                for (Element img : imgs) {
+                    imgurl = img.attr("src").replace("/s/", "/c/");
+                    imgurl = "https:" + imgurl;
+                }
+
+                Elements title_es = li.getElementsByClass("l");
+                for (Element title_e : title_es) {
+                    title = title_e.text();
+                }
+
+
+                Log.d("testhttp", String.valueOf(rate));
+                Log.d("testhttp", imgurl);
+                Log.d("testhttp", title);
+
+                ThumbnailBean thumbnailBean = new ThumbnailBean(title, rate, imgurl);
                 num++;
                 int rank = num + (page - 1) * 24;
+//                thumbnailBean.rank = rank;
                 String item = (li.attr("id").split("_"))[1];
-                list.add(new RankBean(rank,item));
+                list.add(thumbnailBean);
             }
 
         } catch (IOException e) {
@@ -77,4 +109,27 @@ public class HttpManager {
 
         return list;
     }
+
+
+    public void getTopAnimation(int page) {
+        final int mpage = page;
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List list = getThumbnailItem(BangumiAPi.getTopAnimation, mpage);
+                if (list != null) {
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result","succ");
+                    bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+                }
+
+            }
+        }.start();
+    }
+
+
 }

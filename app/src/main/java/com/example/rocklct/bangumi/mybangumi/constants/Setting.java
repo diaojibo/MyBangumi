@@ -1,6 +1,6 @@
 package com.example.rocklct.bangumi.mybangumi.constants;
 
-import com.example.rocklct.bangumi.mybangumi.ui.bean.AnimationBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 
 /**
  * Created by rocklct on 2016/4/18.
@@ -19,16 +19,16 @@ public class Setting {
     }
 
     public static boolean isMobileConn(){
-        return isMobileConn();
+        return IS_MOBILE_CONN;
     }
 
     public static void setIsMobileConn(boolean isMobileConn){
        Setting.IS_MOBILE_CONN = isMobileConn;
     }
 
-    public static String getImageUrl(AnimationBean.SubjectBean.ImagesBean bean){
+    public static String getImageUrl(ThumbnailBean bean){
         String url = "";
-        url = bean.getMedium();
+        url = bean.imageurl;
         return url;
     }
 }

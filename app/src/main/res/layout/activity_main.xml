@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Activity.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <!--AppBarLayout常用来实现一些滚动效果，经常和CoordinatorLayout配套使用，为第一个子节点-->
     <android.support.design.widget.AppBarLayout

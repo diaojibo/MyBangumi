@@ -1,0 +1,21 @@
+package com.example.rocklct.bangumi.mybangumi.ui.bean;
+
+import android.annotation.SuppressLint;
+
+/**
+ * Created by rocklct on 2016/4/26.
+ */
+@SuppressLint("ParcelCreator")
+public class ThumbnailBean extends BaseBean {
+    public String title;
+    public float rate = 0;
+    public int rank;
+    public String imageurl;
+
+    public ThumbnailBean(String title,float rate,String imageurl){
+        super();
+        this.title = title;
+        this.rate = rate;
+        this.imageurl = imageurl;
+    }
+}

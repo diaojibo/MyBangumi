@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2016/3/24.
+ * Created by rocklct on 2016/3/24.
  */
 public abstract class AbstractFragment extends Fragment implements HttpManager.OnConnectListener{
    public HttpManager mHttpManager;

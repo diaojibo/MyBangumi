@@ -2,6 +2,7 @@ package com.example.rocklct.bangumi.mybangumi.util.ImageLoader;
 
 import android.graphics.Bitmap;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.example.rocklct.bangumi.mybangumi.util.Util;
@@ -70,6 +71,7 @@ public class LoadNetworkImageTask implements Runnable {
             //将读取到的图片流放进文件缓存当中
             Util.readStream(inputStream, new FileOutputStream(file));
             bitmap = Util.decodeBitmapFile(file, imageView.getWidth(), imageView.getHeight());
+            Log.d("testhttp","getbitmap");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -80,7 +82,7 @@ public class LoadNetworkImageTask implements Runnable {
     }
 
 
-    private boolean getBitmaoFromFile() {
+    private boolean getBitmapFromFile() {
         File file = imageLoaderInfo.imageCache.fileCache.getFile(imageLoaderInfo.url);
         if (file == null || !file.exists()) {
             return false;
@@ -102,10 +104,11 @@ public class LoadNetworkImageTask implements Runnable {
         //加锁读取
         try {
             //如果可以从文件里读则先读然后放进缓存
-            if (getBitmaoFromFile()) {
+            if (getBitmapFromFile()) {
                 ImageLoader.getmInstance().putMemoryCache(url, bitmap);
                 handler.post(new DisplayImageTask(bitmap, imageLoaderInfo));
             } else if (getBitmapFromNetwork()) {
+                Log.d("testhttp","loadnetworksucc");
                 //实在没办法则从网络拉取图片，然后存进缓存。
                 ImageLoader.getmInstance().putMemoryCache(url, bitmap);
                 handler.post(new DisplayImageTask(bitmap, imageLoaderInfo));
