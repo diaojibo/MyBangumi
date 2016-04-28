@@ -12,11 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by rocklct on 2016/4/18.
@@ -63,21 +64,25 @@ public class LoadNetworkImageTask implements Runnable {
     private boolean getBitmapFromNetwork() {
         try {
             URL mUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) mUrl.openConnection();
+            Log.d("testhttp", url);
+            HttpsURLConnection conn = (HttpsURLConnection) mUrl.openConnection();
+//            HttpURLConnection conn = (HttpURLConnection) mUrl.openConnection();
             conn.setReadTimeout(20 * 1000);
             conn.setConnectTimeout(5 * 1000);
             InputStream inputStream = conn.getInputStream();
+            if(inputStream == null){
+                Log.d("testhttp","nullohno");
+            }
             File file = fileCache.getFile(url);
             //将读取到的图片流放进文件缓存当中
             Util.readStream(inputStream, new FileOutputStream(file));
             bitmap = Util.decodeBitmapFile(file, imageView.getWidth(), imageView.getHeight());
-            Log.d("testhttp","getbitmap");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Log.d("testhttp", String.valueOf((bitmap)));
         return bitmap != null;
     }
 

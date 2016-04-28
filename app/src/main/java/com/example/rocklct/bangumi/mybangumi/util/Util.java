@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 
+import com.example.rocklct.bangumi.mybangumi.BangumiApp;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -50,15 +52,36 @@ public class Util {
         os.close();
     }
 
+    /**
+     * 计算缩放大小
+     *
+     * @param options
+     * @param reqWidth
+     * @param reqHeight
+     * @return
+     */
 
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         final int width = options.outWidth;
         final int height = options.outHeight;
 
         if (reqWidth == 0) {
-
+            reqWidth = BangumiApp.getmInstance().getmScreenWidth();
         }
-        return 0;
+        if (reqHeight == 0) {
+            reqHeight = BangumiApp.getmInstance().getmScreenHeight();
+        }
+
+        int inSampSize = 1;
+        //两倍两倍缩放，知道小于要求尺寸的为止
+        if (width > reqWidth || height > reqHeight) {
+            final int halfWidth = width / 2;
+            final int halfHeight = height / 2;
+            while ((halfHeight / inSampSize) > reqHeight && (halfWidth / inSampSize > reqWidth)) {
+                inSampSize *= 2;
+            }
+        }
+        return inSampSize;
     }
 
 
@@ -69,8 +92,9 @@ public class Util {
         String pathname = file.getPath() + file.getName();
         Log.d("pathname", pathname);
         BitmapFactory.decodeStream(new FileInputStream(file), null, options);
-//        options.inSampleSize
-        return null;
+        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        options.inJustDecodeBounds = false;
+        return BitmapFactory.decodeStream(new FileInputStream(file),null,options);
     }
 
     public static boolean isZero(float score) {
