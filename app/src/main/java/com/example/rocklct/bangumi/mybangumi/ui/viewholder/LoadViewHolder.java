@@ -7,10 +7,8 @@ import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 
-import org.w3c.dom.Text;
-
 /**
- * Created by Administrator on 2016/4/19.
+ * Created by rocklct on 2016/4/19.
  */
 public class LoadViewHolder extends RecyclerView.ViewHolder {
 

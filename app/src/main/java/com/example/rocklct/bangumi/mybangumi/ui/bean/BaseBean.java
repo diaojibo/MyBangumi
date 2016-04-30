@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class BaseBean implements Serializable,Parcelable {
 
+    //存放bean视图的类型
     protected int view_type;
 
     protected BaseBean(Parcel in) {

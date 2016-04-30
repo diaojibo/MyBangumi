@@ -42,6 +42,7 @@ public class AnimationTopAdapter extends AbstractAdapter {
         switch (type) {
             case TYPE_TITLE:
             case TYPE_LOAD:
+                type = TYPE_LOAD;
                 break;
             default:
                 type = TYPE_ITEM;

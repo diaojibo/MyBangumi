@@ -15,12 +15,15 @@ import java.util.Map;
  * Created by Administrator on 2016/3/24.
  */
 public class AbstractAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    // TYPE_ITEM 视图类型是缩略图的view类型
     public static final int TYPE_ITEM = 0;
+    // TYPE_LOAD 视图类型是底部翻页的加载
     public static final int TYPE_LOAD = 1;
     public static final int TYPE_HEADER = 2;
 
     //mData就是要传进去的数据
     public List<BaseBean> mData;
+    //用来放不同类型的类模板
     public Map<Integer, View> mItems;
 
     public AbstractAdapter() {
@@ -28,7 +31,7 @@ public class AbstractAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mData = new ArrayList<>();
     }
 
-    //添加自定义视图,同时判断视图属于什么类型，item，load，还是什么。
+    //添加自定义视图模板,同时判断视图属于什么类型，item，load，还是什么。
     public void addCustomView(View view, int position, int tag) {
         BaseBean bean = new BaseBean();
         if (tag > 0) {

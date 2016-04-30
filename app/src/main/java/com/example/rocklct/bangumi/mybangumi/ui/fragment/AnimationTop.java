@@ -41,6 +41,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     private TextView tv_more_information;
     private TextView tv_normal;
     private LinearLayout loading_layout;
+    private int load_pages = 0;
 
     public AnimationTop() {
         // Required empty public constructor
@@ -65,19 +66,23 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
         return view;
     }
 
-    private void initLoadView(){
+    //用来加载最下面那一条加载更多动画的View
+    private void initLoadView() {
         loading_layout = (LinearLayout) loadView.findViewById(R.id.loading_layout);
         tv_more_information = (TextView) loadView.findViewById(R.id.tv_more_information);
         tv_more_information.setVisibility(View.VISIBLE);
-        tv_more_information.setOnClickListener(new View.OnClickListener(){
+        tv_more_information.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                tv_more_information.setVisibility(View.GONE);
+                loading_layout.setVisibility(View.VISIBLE);
+                load_pages++;
+                mHttpManager.getTopAnimation(load_pages);
             }
         });
     }
 
-    public static AnimationTop getInstance(){
+    public static AnimationTop getInstance() {
         AnimationTop fragment = new AnimationTop();
         return fragment;
     }
@@ -86,7 +91,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item,null);
+        loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, null);
         isCreated = false;
     }
 
@@ -98,15 +103,15 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     private void initView() {
         mSwipeRefreshLayout.setEnabled(false);
         mRecyclerView.setHasFixedSize(true);
-        mAdapter = new AnimationTopAdapter(getContext(),mData);
+        mAdapter = new AnimationTopAdapter(getContext(), mData);
         mRecyclerView.setAdapter(mAdapter);
-        mManager = new GridLayoutManager(getContext(),3);
+        mManager = new GridLayoutManager(getContext(), 3);
         mRecyclerView.setLayoutManager(mManager);
-        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
+        mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 int size = 1;
-                switch (mAdapter.getItemViewType(position)){
+                switch (mAdapter.getItemViewType(position)) {
                     case AnimationTopAdapter.TYPE_TITLE:
                     case AnimationTopAdapter.TYPE_LOAD:
                         size = mManager.getSpanCount();
@@ -122,22 +127,22 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
 
     @Override
     public void OnSuccess(List result) {
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return;
         }
-        Log.d("test","onsuccess");
-        if(isRefresh){
+        Log.d("test", "onsuccess");
+        if (isRefresh) {
             mData.clear();
             mAdapter.notifyDataSetChanged();
             isRefresh = false;
         }
-//        mData.addAll()
         ThumbnailBean s = (ThumbnailBean) result.get(0);
-////        s.imageurl = "http://upload-images.jianshu.io/upload_images/680540-e04227416a611216.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240";
-//        result.add(s);
         mData.addAll(result);
+
+        //插入最后的加载条view模板，把自定义视图插到最后一个位置显示出来
+        mAdapter.addCustomView(loadView, mData.size(), AnimationTopAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
-        Util.loadAnima(mProgressBar,mRecyclerView);
+        Util.loadAnima(mProgressBar, mRecyclerView);
 
 
     }
@@ -147,7 +152,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
 
     }
 
-    public void load_thumbnail(){
+    public void load_thumbnail() {
 
     }
 }
