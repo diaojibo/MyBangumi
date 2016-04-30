@@ -36,12 +36,13 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     private int title_position;
     private String city;
     private boolean isRefresh = false;
+    private boolean isLoad = false;
     private final Gson gson = new Gson();
     private View loadView;
     private TextView tv_more_information;
     private TextView tv_normal;
     private LinearLayout loading_layout;
-    private int load_pages = 0;
+    private int load_pages = 1;
 
     public AnimationTop() {
         // Required empty public constructor
@@ -77,6 +78,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
                 tv_more_information.setVisibility(View.GONE);
                 loading_layout.setVisibility(View.VISIBLE);
                 load_pages++;
+                isLoad = true;
                 mHttpManager.getTopAnimation(load_pages);
             }
         });
@@ -97,7 +99,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
 
     @Override
     void initData() {
-        mHttpManager.getTopAnimation(0);
+        mHttpManager.getTopAnimation(1);
     }
 
     private void initView() {
@@ -136,8 +138,15 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
             mAdapter.notifyDataSetChanged();
             isRefresh = false;
         }
+        if (isLoad){
+            mData.remove(mData.size()-1);
+            isLoad = false;
+        }
         ThumbnailBean s = (ThumbnailBean) result.get(0);
         mData.addAll(result);
+
+        loadView.findViewById(R.id.tv_more_information).setVisibility(View.VISIBLE);
+        loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
 
         //插入最后的加载条view模板，把自定义视图插到最后一个位置显示出来
         mAdapter.addCustomView(loadView, mData.size(), AnimationTopAdapter.TYPE_LOAD);
