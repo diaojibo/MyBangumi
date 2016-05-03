@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/3/21.
  */
-public class AnimationTop extends AbstractFragment implements HttpManager.OnConnectListener {
+public class AnimationCalendar extends AbstractFragment implements HttpManager.OnConnectListener {
 
     private ThumbnailAdapter mAdapter;
     private GridLayoutManager mManager;
@@ -44,7 +44,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     private LinearLayout loading_layout;
     private int load_pages = 1;
 
-    public AnimationTop() {
+    public AnimationCalendar() {
         // Required empty public constructor
     }
 
@@ -84,8 +84,8 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
         });
     }
 
-    public static AnimationTop getInstance() {
-        AnimationTop fragment = new AnimationTop();
+    public static AnimationCalendar getInstance() {
+        AnimationCalendar fragment = new AnimationCalendar();
         return fragment;
     }
 
@@ -151,6 +151,8 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
         //插入最后的加载条view模板，把自定义视图插到最后一个位置显示出来
         mAdapter.addCustomView(loadView, mData.size(), ThumbnailAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
+
+        //加载结束，调用停止加载动画显示界面
         Util.loadAnima(mProgressBar, mRecyclerView);
 
 
