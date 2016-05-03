@@ -5,16 +5,24 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.example.rocklct.bangumi.mybangumi.constants.BangumiAPi;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.testBean;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +58,53 @@ public class HttpManager {
     };
 
     public interface OnConnectListener {
-//        void OnSuccess(String result, int tag);
+        //        void OnSuccess(String result, int tag);
         void OnSuccess(List result);
 
         void OnError(int tag);
+    }
+
+
+    public List getCalendarItem(String url) {
+
+        return null;
+    }
+
+    public String getCalendarJson(String murl) {
+        String result = "";
+        try {
+            URL url = new URL(murl);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setReadTimeout(10000);
+            conn.setConnectTimeout(15000);
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            result = readIs(is);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("httptest",result);
+        testBean tb = JSON.parseObject(result,testBean.class);
+        Log.d("httptest",tb.getId()+" "+tb.getUrl()+" "+tb.getType());
+
+        return result;
+    }
+
+    //从inputstream输入流转换成字符串
+    private String readIs(InputStream is) throws IOException {
+        InputStreamReader inputStreamReader = new InputStreamReader(is, "UTF-8");
+        BufferedReader reader = new BufferedReader(inputStreamReader);
+        StringBuffer sb = new StringBuffer();
+        String tempLine = null;
+        while ((tempLine = reader.readLine()) != null) {
+            sb.append(tempLine);
+            sb.append("\r\n");
+        }
+        return sb.toString();
     }
 
 
@@ -121,7 +172,7 @@ public class HttpManager {
                 if (list != null) {
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
-                    bundle.putString("result","succ");
+                    bundle.putString("result", "succ");
                     bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
                     msg.setData(bundle);
                     handler.sendMessage(msg);

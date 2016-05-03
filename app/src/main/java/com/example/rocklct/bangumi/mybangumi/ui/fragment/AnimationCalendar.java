@@ -21,7 +21,6 @@ import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +36,9 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     private String city;
     private boolean isRefresh = false;
     private boolean isLoad = false;
-    private final Gson gson = new Gson();
     private View loadView;
+    private List<View> weekViews;
+    private View weekViewItem;
     private TextView tv_more_information;
     private TextView tv_normal;
     private LinearLayout loading_layout;
@@ -54,6 +54,7 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
 
         //一开始的时候是一个正在加载的progressbar
         View view = inflater.inflate(R.layout.fragment_base, container, false);
+
         mHttpManager = new HttpManager(this);
 
         mData = new ArrayList<>();
@@ -62,10 +63,25 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_base);
         mFloatingActionButton = (FloatingActionButton) view.findViewById(R.id.fab_base);
         initView();
+        initWeekViews();
         initData();
         initLoadView();
         return view;
     }
+
+    //初始化星期views
+    private void initWeekViews(){
+
+        weekViews = new ArrayList();
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_sunday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_monday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_tuesday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_wednesday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_thursday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_friday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_saturday));
+    }
+
 
     //用来加载最下面那一条加载更多动画的View
     private void initLoadView() {
@@ -94,6 +110,7 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, null);
+        weekViewItem = LayoutInflater.from(getContext()).inflate(R.layout.calendar_item,null);
         isCreated = false;
     }
 

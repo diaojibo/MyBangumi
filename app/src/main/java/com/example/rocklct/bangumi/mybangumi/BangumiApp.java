@@ -4,9 +4,6 @@ import android.app.Application;
 
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.FileCache;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.ImageLoader;
-import com.google.gson.Gson;
-
-import java.io.File;
 
 /**
  * Created by rocklct on 2016/4/18.
@@ -17,6 +14,7 @@ public class BangumiApp extends Application {
     public ImageLoader mImageLoader;
     private int mScreenWidth,mScreenHeight;
     private FileCache mFileCache;
+
 
     public FileCache getmFileCache(){
         return mFileCache;
@@ -35,9 +33,7 @@ public class BangumiApp extends Application {
         return mInstance;
     }
 
-    public Gson getGson(){
-        return new Gson();
-    }
+
 
     @Override
     public void onCreate() {

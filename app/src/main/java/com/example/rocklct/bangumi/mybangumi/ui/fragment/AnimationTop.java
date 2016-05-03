@@ -21,7 +21,6 @@ import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,6 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
     private String city;
     private boolean isRefresh = false;
     private boolean isLoad = false;
-    private final Gson gson = new Gson();
     private View loadView;
     private TextView tv_more_information;
     private TextView tv_normal;
@@ -66,6 +64,7 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
         initLoadView();
         return view;
     }
+
 
     //用来加载最下面那一条加载更多动画的View
     private void initLoadView() {
@@ -138,8 +137,8 @@ public class AnimationTop extends AbstractFragment implements HttpManager.OnConn
             mAdapter.notifyDataSetChanged();
             isRefresh = false;
         }
-        if (isLoad){
-            mData.remove(mData.size()-1);
+        if (isLoad) {
+            mData.remove(mData.size() - 1);
             isLoad = false;
         }
         ThumbnailBean s = (ThumbnailBean) result.get(0);
