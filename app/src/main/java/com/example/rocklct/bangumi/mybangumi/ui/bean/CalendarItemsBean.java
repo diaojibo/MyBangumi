@@ -10,19 +10,25 @@ public class CalendarItemsBean {
     public List<CalendarBean> weekitem = new ArrayList<>();
 
 
-    public class CalendarBean{
-        public class Item{
+    public class CalendarBean {
+        public class Item {
             public String id;
             public String name;
             public String name_cn;
             public float score;
-            public ImageURL images;
-            public class ImageURL{
+            public rating rating = new rating();
+            public ImageURL images = new ImageURL();
+
+            public class ImageURL {
                 public String large;
                 public String common;
                 public String medium;
                 public String small;
                 public String grid;
+            }
+
+            public class rating {
+                public float score;
             }
         }
 

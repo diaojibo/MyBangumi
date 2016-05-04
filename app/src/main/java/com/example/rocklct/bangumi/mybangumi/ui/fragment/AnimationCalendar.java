@@ -11,13 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.ui.adapter.ThumbnailAdapter;
-import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.util.HttpManager;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
@@ -33,15 +31,9 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     private ThumbnailAdapter mAdapter;
     private GridLayoutManager mManager;
     private int title_position;
-    private String city;
     private boolean isRefresh = false;
-    private boolean isLoad = false;
-    private View loadView;
     private List<View> weekViews;
     private View weekViewItem;
-    private TextView tv_more_information;
-    private TextView tv_normal;
-    private LinearLayout loading_layout;
     private int load_pages = 1;
 
     public AnimationCalendar() {
@@ -65,39 +57,29 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
         initView();
         initWeekViews();
         initData();
-        initLoadView();
         return view;
     }
 
     //初始化星期views
-    private void initWeekViews(){
+    private void initWeekViews() {
 
         weekViews = new ArrayList();
-        weekViews.add(weekViewItem.findViewById(R.id.calendar_sunday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_monday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_tuesday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_wednesday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_thursday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_friday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_saturday));
+        weekViews.add(weekViewItem.findViewById(R.id.calendar_sunday));
+
+
+
     }
 
 
     //用来加载最下面那一条加载更多动画的View
     private void initLoadView() {
-        loading_layout = (LinearLayout) loadView.findViewById(R.id.loading_layout);
-        tv_more_information = (TextView) loadView.findViewById(R.id.tv_more_information);
-        tv_more_information.setVisibility(View.VISIBLE);
-        tv_more_information.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tv_more_information.setVisibility(View.GONE);
-                loading_layout.setVisibility(View.VISIBLE);
-                load_pages++;
-                isLoad = true;
-                mHttpManager.getTopAnimation(load_pages);
-            }
-        });
+
     }
 
     public static AnimationCalendar getInstance() {
@@ -109,14 +91,13 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, null);
-        weekViewItem = LayoutInflater.from(getContext()).inflate(R.layout.calendar_item,null);
+        weekViewItem = LayoutInflater.from(getContext()).inflate(R.layout.calendar_item, null);
         isCreated = false;
     }
 
     @Override
     void initData() {
-        mHttpManager.getTopAnimation(1);
+        mHttpManager.getAnimationCalendar();
     }
 
     private void initView() {
@@ -127,9 +108,17 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
         mManager = new GridLayoutManager(getContext(), 3);
         mRecyclerView.setLayoutManager(mManager);
         mManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            //这是在根据类型调整gridLayout的间隔,如果是普通缩略图就是占据一份，否则3份
             @Override
             public int getSpanSize(int position) {
                 int size = 1;
+                int type = mAdapter.getItemViewType(position);
+
+                //处理星期提示View
+                if (type >= mAdapter.TYPE_WEEKDAY) {
+                    size = mManager.getSpanCount();
+                    return size;
+                }
                 switch (mAdapter.getItemViewType(position)) {
                     case ThumbnailAdapter.TYPE_TITLE:
                     case ThumbnailAdapter.TYPE_LOAD:
@@ -155,18 +144,15 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
             mAdapter.notifyDataSetChanged();
             isRefresh = false;
         }
-        if (isLoad){
-            mData.remove(mData.size()-1);
-            isLoad = false;
+
+
+        //0-6分别把不同星期几的新番内容加载进去
+        for (int i = 0; i < 7; i++) {
+            Log.d("testhttp","succweeday"+i);
+            mAdapter.addCustomView(weekViews.get(i), mData.size(), ThumbnailAdapter.TYPE_WEEKDAY + i + 1);
+            mData.addAll((List<BaseBean>)result.get(i));
         }
-        ThumbnailBean s = (ThumbnailBean) result.get(0);
-        mData.addAll(result);
 
-        loadView.findViewById(R.id.tv_more_information).setVisibility(View.VISIBLE);
-        loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
-
-        //插入最后的加载条view模板，把自定义视图插到最后一个位置显示出来
-        mAdapter.addCustomView(loadView, mData.size(), ThumbnailAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
 
         //加载结束，调用停止加载动画显示界面

@@ -3,6 +3,7 @@ package com.example.rocklct.bangumi.mybangumi.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.LoadViewHolder;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.ThumbnailViewHolder;
+import com.example.rocklct.bangumi.mybangumi.ui.viewholder.WeekDayViewHolder;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.ImageLoader;
 import com.example.rocklct.bangumi.mybangumi.util.Interfaces.OnRecycleViewItemClick;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
@@ -39,6 +41,9 @@ public class ThumbnailAdapter extends AbstractAdapter {
     @Override
     public int getItemViewType(int position) {
         int type = mData.get(position).getView_type();
+        if (type > TYPE_WEEKDAY) {
+            return type;
+        }
         switch (type) {
             case TYPE_TITLE:
             case TYPE_LOAD:
@@ -56,6 +61,14 @@ public class ThumbnailAdapter extends AbstractAdapter {
         RecyclerView.ViewHolder viewHolder = null;
         View view = null;
 
+        //处理新番view的情况
+        if (viewType > TYPE_WEEKDAY) {
+            view = mItems.get(viewType);
+            Log.d("testhttp","viewtype"+viewType);
+            viewHolder = new WeekDayViewHolder(view);
+            return viewHolder;
+        }
+
         //根据不同的viewtype返回不同的viewHolder
         switch (viewType) {
             case TYPE_ITEM:
@@ -66,6 +79,7 @@ public class ThumbnailAdapter extends AbstractAdapter {
                 view = mItems.get(TYPE_TITLE);
                 viewHolder = new LoadViewHolder(view);
                 break;
+
             case TYPE_LOAD:
                 view = mItems.get(TYPE_LOAD);
                 viewHolder = new LoadViewHolder(view);
@@ -103,8 +117,8 @@ public class ThumbnailAdapter extends AbstractAdapter {
 
     }
 
-    public interface OnAdapterBackListener{
-        void OnClick(int position,int type);
+    public interface OnAdapterBackListener {
+        void OnClick(int position, int type);
     }
 
     @Override

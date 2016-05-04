@@ -44,14 +44,25 @@ public class HttpManager {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String result = msg.getData().getString("result");
+            Bundle bundle = msg.getData();
+            String type = bundle.getString("getType");
+            String result = bundle.getString("result");
             int tag = msg.what;
+
+            //分不同的情况handler发送处理
             if (result == null || result.isEmpty()) {
                 onConnectListener.OnError(tag);
-            } else {
-                List<BaseBean> list = msg.getData().getParcelableArrayList("data");
+            } else if (type == "getTop") {
+                List<BaseBean> list = bundle.getParcelableArrayList("data");
                 onConnectListener.OnSuccess(list);
 
+            } else if (type == "getCalendar") {
+                List list = new ArrayList();
+                for (int i = 1; i <= 7; i++) {
+                    List<BaseBean> tb = bundle.getParcelableArrayList("day" + i);
+                    list.add(tb);
+                }
+                onConnectListener.OnSuccess(list);
             }
 
         }
@@ -91,7 +102,7 @@ public class HttpManager {
         Log.d("httptest", "{\"weekitem:\"" + result + "}");
 
 
-        return result;
+        return "{\"weekitem\":" + result + "}";
     }
 
     //从inputstream输入流转换成字符串
@@ -173,6 +184,7 @@ public class HttpManager {
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
                     bundle.putString("result", "succ");
+                    bundle.putString("getType", "getCalendar");
                     List weekitems = new ArrayList();
                     int weekday = 0;
 
@@ -183,16 +195,23 @@ public class HttpManager {
                         for (CalendarItemsBean.CalendarBean.Item it : cb.items) {
                             String title = it.name_cn;
                             String id = it.id;
-                            float score = it.score;
-                            String imgurl = it.images.common;
+                            float score = it.rating.score;
+                            Log.d("testhttp", title + " " + id + " " + score);
+                            String imgurl = "null";
+                            if (it.images != null) {
+                                String tempurl = it.images.common.split(":")[1];
+                                imgurl = "https:"+tempurl;
+                            }
                             ThumbnailBean tb = new ThumbnailBean(title, score, imgurl, id);
                             tempweek.add(tb);
                         }
-                        bundle.putParcelableArrayList(String.valueOf(weekday), (ArrayList<BaseBean>) tempweek);
+                        bundle.putParcelableArrayList("day" + String.valueOf(weekday), (ArrayList<BaseBean>) tempweek);
                     }
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
                 }
             }
-        };
+        }.start();
     }
 
     public void getTopAnimation(int page) {
@@ -205,6 +224,7 @@ public class HttpManager {
                 if (list != null) {
                     Message msg = new Message();
                     Bundle bundle = new Bundle();
+                    bundle.putString("getType", "getTop");
                     bundle.putString("result", "succ");
                     bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
                     msg.setData(bundle);

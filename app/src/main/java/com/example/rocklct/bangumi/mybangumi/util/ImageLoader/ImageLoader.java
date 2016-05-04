@@ -1,10 +1,13 @@
 package com.example.rocklct.bangumi.mybangumi.util.ImageLoader;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.constants.Setting;
 
 import java.io.File;
@@ -42,6 +45,8 @@ public class ImageLoader {
 
     private android.os.Handler mHandler;
 
+    private Context mContext;
+
     //AtomicBoolean用以保证原子性操作
     private final AtomicBoolean mPaused = new AtomicBoolean(false);
     private final Object mPauseLock = new Object();
@@ -66,6 +71,7 @@ public class ImageLoader {
 
     public synchronized void init(Context context) {
         mImageCache = new ImageCache(context);
+        mContext = context;
         //消费者队列，队列为空时取值会阻塞，满的时候添加会阻塞
         BlockingQueue<Runnable> taskQueue = new LinkedBlockingDeque<>();
 
@@ -146,9 +152,16 @@ public class ImageLoader {
         }else{
             imageView.setImageBitmap(null);
             //内存缓存中没有则调用任务分发线程池
+            if(url == "null"){
+                Resources res = mContext.getResources();
+                Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.nopic);
+                imageView.setImageBitmap(bmp);
+                return;
+            }
             mDispatchExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("testhttp",url);
                     File file = mImageCache.fileCache.getFile(url);
                     if(!file.exists()){
                         //如果没有文件缓存，就调用网络线程获取图片
