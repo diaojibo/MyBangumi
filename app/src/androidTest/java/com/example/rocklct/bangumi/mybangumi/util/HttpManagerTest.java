@@ -20,6 +20,6 @@ public class HttpManagerTest extends TestCase {
             public void OnError(int tag) {
 
             }
-        }).getCalendarJson("http://api.bgm.tv/subject/142812");
+        }).getCalendarJson("http://api.bgm.tv/calendar");
     }
 }

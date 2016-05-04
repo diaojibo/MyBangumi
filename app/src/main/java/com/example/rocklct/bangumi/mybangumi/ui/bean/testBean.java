@@ -7,6 +7,7 @@ public class testBean {
     String id;
     String url;
     int type;
+    int fuckyou = 999;
 
     public String getId() {
         return id;

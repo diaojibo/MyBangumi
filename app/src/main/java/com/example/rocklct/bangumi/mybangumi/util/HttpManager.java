@@ -8,8 +8,8 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.example.rocklct.bangumi.mybangumi.constants.BangumiAPi;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.CalendarItemsBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
-import com.example.rocklct.bangumi.mybangumi.ui.bean.testBean;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -65,9 +65,10 @@ public class HttpManager {
     }
 
 
-    public List getCalendarItem(String url) {
-
-        return null;
+    public List<CalendarItemsBean.CalendarBean> getCalendarItem() {
+        String calendarjson = getCalendarJson(BangumiAPi.getCalendar);
+        CalendarItemsBean clb = JSON.parseObject(calendarjson, CalendarItemsBean.class);
+        return clb.weekitem;
     }
 
     public String getCalendarJson(String murl) {
@@ -87,9 +88,8 @@ public class HttpManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("httptest",result);
-        testBean tb = JSON.parseObject(result,testBean.class);
-        Log.d("httptest",tb.getId()+" "+tb.getUrl()+" "+tb.getType());
+        Log.d("httptest", "{\"weekitem:\"" + result + "}");
+
 
         return result;
     }
@@ -146,11 +146,11 @@ public class HttpManager {
                 Log.d("testhttp", imgurl);
                 Log.d("testhttp", title);
 
-                ThumbnailBean thumbnailBean = new ThumbnailBean(title, rate, imgurl);
+                String item_id = (li.attr("id").split("_"))[1];
+                ThumbnailBean thumbnailBean = new ThumbnailBean(title, rate, imgurl, item_id);
                 num++;
                 int rank = num + (page - 1) * 24;
 //                thumbnailBean.rank = rank;
-                String item = (li.attr("id").split("_"))[1];
                 list.add(thumbnailBean);
             }
 
@@ -161,6 +161,39 @@ public class HttpManager {
         return list;
     }
 
+
+    //开启新进程获取当前新番
+    public void getAnimationCalendar() {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List<CalendarItemsBean.CalendarBean> list = getCalendarItem();
+                if (list != null) {
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", "succ");
+                    List weekitems = new ArrayList();
+                    int weekday = 0;
+
+                    //从JSON解析出的Bean对象中抽取信息组装成需要的缩略图Bean对象
+                    for (CalendarItemsBean.CalendarBean cb : list) {
+                        List tempweek = new ArrayList();
+                        weekday++;
+                        for (CalendarItemsBean.CalendarBean.Item it : cb.items) {
+                            String title = it.name_cn;
+                            String id = it.id;
+                            float score = it.score;
+                            String imgurl = it.images.common;
+                            ThumbnailBean tb = new ThumbnailBean(title, score, imgurl, id);
+                            tempweek.add(tb);
+                        }
+                        bundle.putParcelableArrayList(String.valueOf(weekday), (ArrayList<BaseBean>) tempweek);
+                    }
+                }
+            }
+        };
+    }
 
     public void getTopAnimation(int page) {
         final int mpage = page;

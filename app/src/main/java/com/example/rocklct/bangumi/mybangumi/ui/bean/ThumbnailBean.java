@@ -11,8 +11,9 @@ public class ThumbnailBean extends BaseBean {
     public float rate = 0;
     public int rank;
     public String imageurl;
+    public String id;
 
-    public ThumbnailBean(String title,float rate,String imageurl){
+    public ThumbnailBean(String title,float rate,String imageurl,String id){
         super();
         this.title = title;
         this.rate = rate;
