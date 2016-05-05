@@ -15,7 +15,9 @@ public class WeekDayViewHolder extends RecyclerView.ViewHolder {
     public WeekDayViewHolder(View itemView) {
         super(itemView);
         ViewGroup p = (ViewGroup) itemView.getParent();
-
+        if(p != null){
+            p.removeAllViews();
+        }
         Log.d("testhttp", String.valueOf(itemView == null));
     }
 }

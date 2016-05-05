@@ -45,7 +45,7 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         //一开始的时候是一个正在加载的progressbar
-        View view = inflater.inflate(R.layout.fragment_base, container, false);
+        View view = inflater.inflate(R.layout.fragment_base_calendar, container, false);
 
         mHttpManager = new HttpManager(this);
 
@@ -63,6 +63,8 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     //初始化星期views
     private void initWeekViews() {
 
+        //自己这代码写得我自己都不忍心看了,唉
+        weekViewItem = LayoutInflater.from(getContext()).inflate(R.layout.calendar_item, null);
         weekViews = new ArrayList();
         weekViews.add(weekViewItem.findViewById(R.id.calendar_monday));
         weekViews.add(weekViewItem.findViewById(R.id.calendar_tuesday));
@@ -91,7 +93,6 @@ public class AnimationCalendar extends AbstractFragment implements HttpManager.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weekViewItem = LayoutInflater.from(getContext()).inflate(R.layout.calendar_item, null);
         isCreated = false;
     }
 

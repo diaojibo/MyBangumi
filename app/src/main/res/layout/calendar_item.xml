@@ -81,7 +81,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0085C8"
+            android:background="#55BB22"
             android:fontFamily="monospace"
             android:padding="10dp"
             android:text="星期四"
@@ -98,7 +98,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#0455A6"
+            android:background="#0085C8"
             android:fontFamily="monospace"
             android:padding="10dp"
             android:text="星期五"
@@ -109,13 +109,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/calendar_saturaday"
+        android:id="@+id/calendar_saturday"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FF0F00"
+            android:background="#0455A6"
             android:fontFamily="monospace"
             android:padding="10dp"
             android:text="星期六"

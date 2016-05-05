@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new GetTabAdapter(getSupportFragmentManager()).getAnimationTabAdapter();
         mViewPager = (ViewPager) findViewById(R.id.myviewpager);
 
+        //将缓存的页面数设置为相隔2
+        mViewPager.setOffscreenPageLimit(2);
+
         //讲ViewPager和Adapter绑定起来获得数据
         mViewPager.setAdapter(mAdapter);
 

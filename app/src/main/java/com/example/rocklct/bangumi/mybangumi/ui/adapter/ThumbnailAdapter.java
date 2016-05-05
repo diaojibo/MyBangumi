@@ -76,6 +76,7 @@ public class ThumbnailAdapter extends AbstractAdapter {
                 viewHolder = new ThumbnailViewHolder(view);
                 break;
             case TYPE_TITLE:
+//                View tempView = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_item)
                 view = mItems.get(TYPE_TITLE);
                 viewHolder = new LoadViewHolder(view);
                 break;
