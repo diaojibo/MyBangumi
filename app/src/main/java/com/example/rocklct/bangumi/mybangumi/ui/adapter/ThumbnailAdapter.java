@@ -111,6 +111,10 @@ public class ThumbnailAdapter extends AbstractAdapter {
                 @Override
                 public void OnItemClick(View v, int position) {
                     Intent intent = new Intent(mContext, DetailActivity.class);
+                    intent.putExtra("id",bean.id);
+                    intent.putExtra("title",bean.title);
+                    intent.putExtra("image",bean.imageurl);
+                    Log.d("tq","cao"+bean.id);
                     mContext.startActivity(intent);
                 }
             });

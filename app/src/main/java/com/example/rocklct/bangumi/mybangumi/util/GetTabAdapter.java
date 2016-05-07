@@ -20,6 +20,14 @@ public class GetTabAdapter {
        this.fm = fm;
     }
 
+    public TabPagerAdapter getDeatilTabAdapter(){
+        tpa = new TabPagerAdapter(fm);
+        tpa.addFragment("介绍",new AnimationJournal());
+        tpa.addFragment("短评",new AnimationJournal());
+        tpa.addFragment("评论",new AnimationJournal());
+        return tpa;
+    }
+
     public TabPagerAdapter getAnimationTabAdapter() {
         tpa = new TabPagerAdapter(fm);
         tpa.addFragment("排行榜",new AnimationTop());

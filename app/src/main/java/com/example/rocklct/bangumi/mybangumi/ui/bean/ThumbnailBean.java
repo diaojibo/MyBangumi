@@ -18,5 +18,6 @@ public class ThumbnailBean extends BaseBean {
         this.title = title;
         this.rate = rate;
         this.imageurl = imageurl;
+        this.id = id;
     }
 }
