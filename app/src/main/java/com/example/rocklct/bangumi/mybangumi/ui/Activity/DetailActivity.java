@@ -46,7 +46,7 @@ public class DetailActivity extends AbstractSwipeActivity {
         mImageLoader = ImageLoader.getmInstance();
         mImageLoader.loadImage(imgurl.replace("/c/","/l/"),item_image);
         mViewPager.setOffscreenPageLimit(2);
-        TabPagerAdapter adapter = new GetTabAdapter(getSupportFragmentManager()).getDeatilTabAdapter();
+        TabPagerAdapter adapter = new GetTabAdapter(getSupportFragmentManager()).getDeatilTabAdapter(id);
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
     }

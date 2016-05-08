@@ -133,6 +133,13 @@ public class ImageLoader {
     public void loadImage(final String url, ImageView imageView, ImageLoadingListener listener) {
         Log.d("url", url);
 
+        if(url.equals("")){
+            Resources res = mContext.getResources();
+            Bitmap bitmap = BitmapFactory.decodeResource(res,R.drawable.bangumiicon2);
+            imageView.setImageBitmap(bitmap);
+            return;
+        }
+
         //是否允许使用移动网络
         if (Setting.isMobileConn() && !Setting.isAllowMobile()) {
             return;

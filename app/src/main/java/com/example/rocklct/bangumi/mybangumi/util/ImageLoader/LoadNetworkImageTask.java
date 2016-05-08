@@ -1,10 +1,15 @@
 package com.example.rocklct.bangumi.mybangumi.util.ImageLoader;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.example.rocklct.bangumi.mybangumi.BangumiApp;
+import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
 
 import java.io.File;
@@ -117,6 +122,11 @@ public class LoadNetworkImageTask implements Runnable {
                 //实在没办法则从网络拉取图片，然后存进缓存。
                 ImageLoader.getmInstance().putMemoryCache(url, bitmap);
                 handler.post(new DisplayImageTask(bitmap, imageLoaderInfo));
+            } else{
+                Context c = BangumiApp.getmInstance();
+                Resources resources = c.getResources();
+                Bitmap bitmap = BitmapFactory.decodeResource(resources, R.drawable.bangumiicon2);
+                handler.post(new DisplayImageTask(bitmap,imageLoaderInfo));
             }
         } catch (Exception e) {
 

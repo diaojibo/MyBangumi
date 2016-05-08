@@ -7,8 +7,10 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.example.rocklct.bangumi.mybangumi.constants.BangumiAPi;
+import com.example.rocklct.bangumi.mybangumi.ui.adapter.DetailAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.CalendarItemsBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.DetailItemBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 
 import org.jsoup.Jsoup;
@@ -63,6 +65,10 @@ public class HttpManager {
                     list.add(tb);
                 }
                 onConnectListener.OnSuccess(list);
+            } else if (type == "getDetail") {
+
+                List<BaseBean> resultlist = bundle.getParcelableArrayList("detail");
+                onConnectListener.OnSuccess(resultlist);
             }
 
         }
@@ -82,7 +88,8 @@ public class HttpManager {
         return clb.weekitem;
     }
 
-    public String getCalendarJson(String murl) {
+
+    public String getJson(String murl) {
         String result = "";
         try {
             URL url = new URL(murl);
@@ -101,7 +108,12 @@ public class HttpManager {
         }
         Log.d("httptest", "{\"weekitem:\"" + result + "}");
 
+        return result;
+    }
 
+    public String getCalendarJson(String murl) {
+        String result = "";
+        result = getJson(murl);
         return "{\"weekitem\":" + result + "}";
     }
 
@@ -173,6 +185,44 @@ public class HttpManager {
     }
 
 
+    //获取某个条目的详细综述信息
+    public void getDetailItem(String id) {
+        final String mid = id;
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                String detailJson = getJson(BangumiAPi.getDetailItem + mid + "?responseGroup=large");
+                Log.d("errorjson", detailJson);
+                DetailItemBean bean = JSON.parseObject(detailJson, DetailItemBean.class);
+                if (bean.name_cn == null) {
+                    bean.name_cn = bean.name;
+                }
+                if (bean != null) {
+                    Message msg = new Message();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", "succ");
+                    bundle.putString("getType", "getDetail");
+
+                    DetailItemBean.DeatilInfoBean dtb = bean.getinfobean();
+                    List<BaseBean> list = new ArrayList<BaseBean>();
+                    dtb.setView_type(DetailAdapter.TYPE_HEADER);
+                    list.add(dtb);
+                    if (bean.crt != null) {
+
+                        list.addAll(bean.crt);
+                    }
+
+
+                    bundle.putParcelableArrayList("detail", (ArrayList<BaseBean>) list);
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+                }
+            }
+        }.start();
+    }
+
+
     //开启新进程获取当前新番
     public void getAnimationCalendar() {
         new Thread() {
@@ -200,7 +250,7 @@ public class HttpManager {
                             String imgurl = "null";
                             if (it.images != null) {
                                 String tempurl = it.images.common.split(":")[1];
-                                imgurl = "https:"+tempurl;
+                                imgurl = "https:" + tempurl;
                             }
                             ThumbnailBean tb = new ThumbnailBean(title, score, imgurl, id);
                             tempweek.add(tb);

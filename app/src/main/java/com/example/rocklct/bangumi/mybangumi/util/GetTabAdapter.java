@@ -6,6 +6,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.adapter.TabPagerAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationCalendar;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationJournal;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationTop;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.DetailFragment;
 
 /**
  * Created by rocklct on 2016/3/22.
@@ -20,9 +21,9 @@ public class GetTabAdapter {
        this.fm = fm;
     }
 
-    public TabPagerAdapter getDeatilTabAdapter(){
+    public TabPagerAdapter getDeatilTabAdapter(String id){
         tpa = new TabPagerAdapter(fm);
-        tpa.addFragment("介绍",new AnimationJournal());
+        tpa.addFragment("介绍",DetailFragment.newInstance(id));
         tpa.addFragment("短评",new AnimationJournal());
         tpa.addFragment("评论",new AnimationJournal());
         return tpa;

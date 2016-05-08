@@ -8,6 +8,7 @@ public class BangumiAPi {
     public static final String getTopAnimation = "http://bangumi.tv/anime/browser?sort=rank";
     public static final String getSimpleItemInfo = "http://api.bgm.tv/subject/";
     public static final String getCalendar = "http://api.bgm.tv/calendar";
+    public static final String getDetailItem = "http://api.bgm.tv/subject/";
 
 
 }
