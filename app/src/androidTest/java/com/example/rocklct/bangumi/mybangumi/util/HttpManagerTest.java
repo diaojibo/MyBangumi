@@ -33,4 +33,19 @@ public class HttpManagerTest extends TestCase {
 
         Log.d("testhttp2", "detail" + bean.id + "  " + bean.name_cn);
     }
+
+
+    public void testreview(){
+        new HttpManager(new HttpManager.OnConnectListener() {
+            @Override
+            public void OnSuccess(List result) {
+
+            }
+
+            @Override
+            public void OnError(int tag) {
+
+            }
+        }).getReview("13",1);
+    }
 }

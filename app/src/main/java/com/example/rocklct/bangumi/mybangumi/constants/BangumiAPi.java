@@ -9,6 +9,11 @@ public class BangumiAPi {
     public static final String getSimpleItemInfo = "http://api.bgm.tv/subject/";
     public static final String getCalendar = "http://api.bgm.tv/calendar";
     public static final String getDetailItem = "http://api.bgm.tv/subject/";
+    public static final String getSubjectRoot = "http://bgm.tv/subject/";
+//    public static final String getReview = "https://bgm.tv/subject/253/reviews";
 
+    public static String getReviewUrl(String id,int page){
+        return getSubjectRoot+id+"/reviews/"+page+".html";
+    }
 
 }

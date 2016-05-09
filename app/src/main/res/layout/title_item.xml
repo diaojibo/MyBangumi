@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="visible"
-            android:text="查看更多动漫信息"
+            android:text="查看更多条目信息"
             />
 
         <!--点击继续加载以后显示的等待画面-->

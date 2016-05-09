@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.rocklct.bangumi.mybangumi.constants.BangumiAPi;
 import com.example.rocklct.bangumi.mybangumi.ui.adapter.DetailAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.BlogInfoBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.CalendarItemsBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.DetailItemBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
@@ -68,6 +69,10 @@ public class HttpManager {
             } else if (type == "getDetail") {
 
                 List<BaseBean> resultlist = bundle.getParcelableArrayList("detail");
+                onConnectListener.OnSuccess(resultlist);
+            } else if (type == "getBlogInfo") {
+                List<BaseBean> resultlist = bundle.getParcelableArrayList("data");
+                Log.d("tt2", "miaomiaomiao2");
                 onConnectListener.OnSuccess(resultlist);
             }
 
@@ -182,6 +187,77 @@ public class HttpManager {
         }
 
         return list;
+    }
+
+
+    //抓取页面来获取评论的info信息并回传
+    public void getReview(String id, int page) {
+        final String murl = BangumiAPi.getReviewUrl(id, page);
+        Log.d("tt2", "enterin" + id);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List<BaseBean> list = new ArrayList<BaseBean>();
+                try {
+                    Document doc = Jsoup.connect(murl).get();
+                    Element entry_list = doc.getElementById("entry_list");
+                    Elements items = entry_list.getElementsByClass("item");
+                    for (Element element : items) {
+
+                        //get imageinfo
+                        String imgurl = "";
+                        Elements imgs = element.getElementsByTag("img");
+                        for (Element e : imgs) {
+                            imgurl = e.attr("src");
+                            imgurl = "https:" + imgurl;
+                        }
+
+                        //Get title and author
+                        String title = "";
+                        String author = "";
+                        Elements texts = element.getElementsByClass("l");
+                        Element data;
+                        if ((data = texts.get(0)) != null) {
+                            title = data.text();
+                        }
+                        if ((data = texts.get(1)) != null) {
+                            author = data.text();
+                        }
+
+                        String content = "";
+                        Elements contents = element.getElementsByClass("content");
+                        for (Element e : contents) {
+                            content = e.text();
+                        }
+
+                        String time = "";
+                        Elements times = element.getElementsByClass("time");
+                        for (Element e : times) {
+                            time = e.text();
+                        }
+
+
+                        Log.d("tt2", imgurl);
+                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl);
+                        list.add(bean);
+
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d("tt2","enterout");
+                Bundle bundle = new Bundle();
+                bundle.putString("result", "succ");
+                bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
+                bundle.putString("getType", "getBlogInfo");
+                Message msg = new Message();
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+            }
+        }.start();
     }
 
 
