@@ -5,6 +5,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
+        android:layout_gravity="center"
         android:layout_margin="10dp"
         android:layout_height="wrap_content">
 
@@ -16,6 +17,15 @@
             android:layout_gravity="center"
             android:visibility="visible"
             android:text="查看更多条目信息"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/load_null"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:text="无更多信息"
             />
 
         <!--点击继续加载以后显示的等待画面-->

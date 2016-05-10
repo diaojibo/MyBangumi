@@ -11,6 +11,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.adapter.DetailAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BlogInfoBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.CalendarItemsBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.CommentBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.DetailItemBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 
@@ -28,6 +29,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by rocklct on 2016/4/19.
@@ -70,7 +73,7 @@ public class HttpManager {
 
                 List<BaseBean> resultlist = bundle.getParcelableArrayList("detail");
                 onConnectListener.OnSuccess(resultlist);
-            } else if (type == "getBlogInfo") {
+            } else if (type == "getBlogInfo" || type == "getComment") {
                 List<BaseBean> resultlist = bundle.getParcelableArrayList("data");
                 Log.d("tt2", "miaomiaomiao2");
                 onConnectListener.OnSuccess(resultlist);
@@ -191,6 +194,79 @@ public class HttpManager {
 
 
     //抓取页面来获取评论的info信息并回传
+    public void getReviewFromType(String type, int page) {
+        final String murl = BangumiAPi.getReviewFromType(type, page);
+        Log.d("tt2", murl);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List<BaseBean> list = new ArrayList<BaseBean>();
+                try {
+                    Document doc = Jsoup.connect(murl).get();
+                    Element entry_list = doc.getElementById("news_list");
+                    Elements items = entry_list.getElementsByClass("item");
+                    for (Element element : items) {
+
+                        //get imageinfo
+                        String imgurl = "";
+                        Elements imgs = element.getElementsByTag("img");
+                        for (Element e : imgs) {
+                            imgurl = e.attr("src");
+                            imgurl = "https:" + imgurl;
+                        }
+
+                        //Get title and author
+                        String title = "";
+                        String author = "";
+                        Elements texts = element.getElementsByClass("l");
+                        Element data;
+                        if ((data = texts.get(0)) != null) {
+                            title = data.text();
+                        }
+
+                        texts = element.getElementsByTag("small");
+
+                        if ((data = texts.get(0)) != null) {
+                            Element temp;
+                            author = data.text();
+                        }
+
+                        String time = "";
+                        if ((data = texts.get(2)) != null) {
+                            time = data.text();
+                        }
+
+                        String content = "";
+                        Elements contents = element.getElementsByClass("content");
+                        for (Element e : contents) {
+                            content = e.text();
+                        }
+
+
+                        Log.d("tt2", imgurl);
+                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl);
+                        list.add(bean);
+
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d("tt2", "enterout");
+                Bundle bundle = new Bundle();
+                bundle.putString("result", "succ");
+                bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
+                bundle.putString("getType", "getBlogInfo");
+                Message msg = new Message();
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+    //抓取页面来获取评论的info信息并回传
     public void getReview(String id, int page) {
         final String murl = BangumiAPi.getReviewUrl(id, page);
         Log.d("tt2", "enterin" + id);
@@ -248,11 +324,96 @@ public class HttpManager {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                Log.d("tt2","enterout");
+                Log.d("tt2", "enterout");
                 Bundle bundle = new Bundle();
                 bundle.putString("result", "succ");
                 bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
                 bundle.putString("getType", "getBlogInfo");
+                Message msg = new Message();
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+            }
+        }.start();
+    }
+
+    //抓取页面来获取吐槽的info信息并回传
+    public void getComment(String id, int page) {
+        final String murl = BangumiAPi.getCommentUrl(id, page);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                List<BaseBean> list = new ArrayList<BaseBean>();
+                try {
+                    Document doc = Jsoup.connect(murl).get();
+                    Element entry_list = doc.getElementById("comment_box");
+                    Elements items = entry_list.getElementsByClass("item");
+                    for (Element element : items) {
+
+                        //get imageinfo
+                        String imgurl = "";
+                        Elements imgs = element.getElementsByClass("avatarNeue");
+                        for (Element e : imgs) {
+                            imgurl = e.attr("style");
+                            String pattern = "'(.*)'";
+                            String tests = imgurl.replace("/s/","/l/");
+                            Pattern r = Pattern.compile(pattern);
+                            Matcher m = r.matcher(tests);
+                            if (m.find()) {
+                                imgurl = "https:" + m.group(1);
+                            }
+                        }
+
+                        //Get author
+                        String author = "";
+                        Elements texts = element.getElementsByClass("l");
+                        Element data;
+                        if ((data = texts.get(0)) != null) {
+                            author = data.text();
+                        }
+
+                        String content = "";
+                        Elements contents = element.getElementsByTag("p");
+                        for (Element e : contents) {
+                            content = e.text();
+                        }
+
+                        String time = "";
+                        Elements times = element.getElementsByClass("grey");
+                        for (Element e : times) {
+                            time = e.text();
+                        }
+
+                        float rating = 0;
+                        Elements ele = element.getElementsByClass("text");
+                        if (ele.get(0) != null) {
+                            Element e = ele.get(0);
+                            Elements ratingNote = e.getElementsByTag("span");
+                            if (!ratingNote.isEmpty()) {
+                                Element rele = ratingNote.get(0);
+                                String rateinfo = rele.attr("class");
+                                String pattern = "sstars([0-9]*)";
+                                Pattern r = Pattern.compile(pattern);
+                                Matcher m = r.matcher(rateinfo);
+                                if (m.find()) {
+                                    rating = Float.parseFloat(m.group(1));
+                                }
+                            }
+                        }
+
+                        CommentBean bean = new CommentBean(author, content, time, imgurl, rating);
+                        list.add(bean);
+
+                    }
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Bundle bundle = new Bundle();
+                bundle.putString("result", "succ");
+                bundle.putParcelableArrayList("data", (ArrayList<BaseBean>) list);
+                bundle.putString("getType", "getComment");
                 Message msg = new Message();
                 msg.setData(bundle);
                 handler.sendMessage(msg);

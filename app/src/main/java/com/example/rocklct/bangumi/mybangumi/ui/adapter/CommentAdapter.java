@@ -6,21 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
-import com.example.rocklct.bangumi.mybangumi.ui.bean.BlogInfoBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.CommentBean;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.LoadViewHolder;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.ImageLoader;
 import com.example.rocklct.bangumi.mybangumi.util.Interfaces.OnRecycleViewItemClick;
+import com.example.rocklct.bangumi.mybangumi.util.Util;
 
 import java.util.List;
 
 /**
  * Created by rocklct on 2016/5/8.
  */
-public class BlogInfoAdapter extends AbstractAdapter {
+public class CommentAdapter extends AbstractAdapter {
 
     private ImageLoader mImageLoader;
     public static final int TYPE_ITEM = 10;
@@ -28,7 +30,7 @@ public class BlogInfoAdapter extends AbstractAdapter {
     private Context mContext;
 
 
-    public BlogInfoAdapter(Context context, List<BaseBean> data) {
+    public CommentAdapter(Context context, List<BaseBean> data) {
         this.mData = data;
         mImageLoader = ImageLoader.getmInstance();
         this.mContext = context;
@@ -37,7 +39,7 @@ public class BlogInfoAdapter extends AbstractAdapter {
     @Override
     public int getItemViewType(int position) {
         int type = mData.get(position).getView_type();
-        switch (type){
+        switch (type) {
             case TYPE_LOAD:
                 type = TYPE_LOAD;
                 break;
@@ -53,8 +55,8 @@ public class BlogInfoAdapter extends AbstractAdapter {
         View view = null;
         switch (viewType) {
             case TYPE_ITEM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_blog_item, parent, false);
-                holder = new BlogInfoHolder(view);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_comment_item, parent, false);
+                holder = new CommentHolder(view);
                 break;
             case TYPE_LOAD:
                 view = mItems.get(TYPE_LOAD);
@@ -72,16 +74,21 @@ public class BlogInfoAdapter extends AbstractAdapter {
         }
 
         if (getItemViewType(position) == TYPE_ITEM) {
-            BlogInfoHolder itemHolder = (BlogInfoHolder) holder;
-            final BlogInfoBean bean = (BlogInfoBean) mData.get(position);
+            CommentHolder itemHolder = (CommentHolder) holder;
+            final CommentBean bean = (CommentBean) mData.get(position);
             if (bean.imgurl != null) {
-                mImageLoader.loadImage(bean.imgurl, itemHolder.rv_blog_img);
+                mImageLoader.loadImage(bean.imgurl, itemHolder.rv_comment_img);
             }
 
-            itemHolder.rv_blog_title.setText(bean.getTitle());
-            itemHolder.rv_blog_author.setText(bean.author+" ");
-            itemHolder.rv_blog_time.setText(bean.time);
-            itemHolder.rv_blog_summary.setText(bean.summary);
+            if (Util.isZero(bean.rating)) {
+                itemHolder.rv_comment_rb.setVisibility(View.GONE);
+            } else {
+                itemHolder.rv_comment_rb.setRating(bean.rating / 2);
+                itemHolder.rv_comment_rb.setVisibility(View.VISIBLE);
+            }
+            itemHolder.rv_comment_author.setText(bean.author + " ");
+            itemHolder.rv_comment_time.setText(bean.time);
+            itemHolder.rv_comment_content.setText(bean.comment);
             itemHolder.setOnRecycleViewItemClick(new OnRecycleViewItemClick() {
                 @Override
                 public void OnItemClick(View v, int position) {
@@ -98,21 +105,21 @@ public class BlogInfoAdapter extends AbstractAdapter {
     }
 
 
-    class BlogInfoHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView rv_blog_title;
-        public TextView rv_blog_summary;
-        public TextView rv_blog_time;
-        public TextView rv_blog_author;
-        public ImageView rv_blog_img;
+    class CommentHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public TextView rv_comment_author;
+        public TextView rv_comment_time;
+        public TextView rv_comment_content;
+        public RatingBar rv_comment_rb;
+        public ImageView rv_comment_img;
         private OnRecycleViewItemClick onRecycleViewItemClick;
 
-        public BlogInfoHolder(View itemView) {
+        public CommentHolder(View itemView) {
             super(itemView);
-            rv_blog_title = (TextView) itemView.findViewById(R.id.rv_blog_title);
-            rv_blog_summary = (TextView) itemView.findViewById(R.id.rv_blog_summary);
-            rv_blog_time = (TextView) itemView.findViewById(R.id.rv_blog_time);
-            rv_blog_author = (TextView) itemView.findViewById(R.id.rv_blog_author);
-            rv_blog_img = (ImageView) itemView.findViewById(R.id.rv_blog_img);
+            rv_comment_author = (TextView) itemView.findViewById(R.id.rv_comment_author);
+            rv_comment_content = (TextView) itemView.findViewById(R.id.rv_comment_content);
+            rv_comment_time = (TextView) itemView.findViewById(R.id.rv_comment_time);
+            rv_comment_img = (ImageView) itemView.findViewById(R.id.rv_comment_img);
+            rv_comment_rb = (RatingBar) itemView.findViewById(R.id.rv_comment_rating);
 
         }
 

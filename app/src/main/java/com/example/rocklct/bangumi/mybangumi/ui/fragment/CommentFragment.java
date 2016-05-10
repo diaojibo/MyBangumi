@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.ui.adapter.BlogInfoAdapter;
+import com.example.rocklct.bangumi.mybangumi.ui.adapter.CommentAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
@@ -23,21 +23,20 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/5/6.
  */
-public class BlogInfoFragment extends AbstractFragment {
+public class CommentFragment extends AbstractFragment {
 
     private String id;
-    private BlogInfoAdapter mAdapter;
+    private CommentAdapter mAdapter;
     private List<BaseBean> data;
     private View loadView;
     private boolean isLoad = false;
     private TextView tv_more_information;
-    private TextView tv_normal;
     private LinearLayout loading_layout;
     private int load_pages = 1;
     private LinearLayoutManager mManager;
 
-    public static BlogInfoFragment newInstance(String id) {
-        BlogInfoFragment fragment = new BlogInfoFragment();
+    public static CommentFragment newInstance(String id) {
+        CommentFragment fragment = new CommentFragment();
         Bundle args = new Bundle();
         args.putString("id", id);
         fragment.setArguments(args);
@@ -61,7 +60,7 @@ public class BlogInfoFragment extends AbstractFragment {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         data = new ArrayList<>();
-        mAdapter = new BlogInfoAdapter(getContext(), data);
+        mAdapter = new CommentAdapter(getContext(), data);
         mRecyclerView.setAdapter(mAdapter);
         initView();
         initData();
@@ -88,14 +87,14 @@ public class BlogInfoFragment extends AbstractFragment {
                 loading_layout.setVisibility(View.VISIBLE);
                 load_pages++;
                 isLoad = true;
-                mHttpManager.getReview(id, load_pages);
+                mHttpManager.getComment(id, load_pages);
             }
         });
     }
 
     @Override
     void initData() {
-        mHttpManager.getReview(id, 1);
+        mHttpManager.getComment(id, 1);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class BlogInfoFragment extends AbstractFragment {
         data.addAll(result);
         loadView.findViewById(R.id.tv_more_information).setVisibility(View.VISIBLE);
         loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
-        mAdapter.addCustomView(loadView, data.size(), BlogInfoAdapter.TYPE_LOAD);
+        mAdapter.addCustomView(loadView, data.size(), CommentAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
         Util.loadAnima(mProgressBar, mRecyclerView);
 

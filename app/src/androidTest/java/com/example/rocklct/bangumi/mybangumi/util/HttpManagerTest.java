@@ -9,6 +9,8 @@ import com.example.rocklct.bangumi.mybangumi.ui.bean.DetailItemBean;
 import junit.framework.TestCase;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by rocklct on 2016/4/26.
@@ -47,5 +49,17 @@ public class HttpManagerTest extends TestCase {
 
             }
         }).getReview("13",1);
+    }
+
+    public void testzhengze(){
+        String pattern = "sstars([0-9]*)";
+        String tests = "sstars10 starsinfo";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(tests);
+        if(m.find()){
+            Log.d("tt2",tests);
+            Log.d("tt2",m.group(0));
+            Log.d("tt2",m.group(1));
+        }
     }
 }

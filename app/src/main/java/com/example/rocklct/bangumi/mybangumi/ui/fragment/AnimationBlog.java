@@ -16,6 +16,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.adapter.BlogInfoAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/5/6.
  */
-public class BlogInfoFragment extends AbstractFragment {
+public class AnimationBlog extends AbstractFragment {
 
     private String id;
     private BlogInfoAdapter mAdapter;
@@ -36,8 +37,8 @@ public class BlogInfoFragment extends AbstractFragment {
     private int load_pages = 1;
     private LinearLayoutManager mManager;
 
-    public static BlogInfoFragment newInstance(String id) {
-        BlogInfoFragment fragment = new BlogInfoFragment();
+    public static AnimationBlog newInstance(String id) {
+        AnimationBlog fragment = new AnimationBlog();
         Bundle args = new Bundle();
         args.putString("id", id);
         fragment.setArguments(args);
@@ -48,7 +49,6 @@ public class BlogInfoFragment extends AbstractFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        id = getArguments().getString("id");
     }
 
     @Override
@@ -70,7 +70,9 @@ public class BlogInfoFragment extends AbstractFragment {
     }
 
     private void initView() {
+//        mRecyclerView.addItemDecoration(new RecycleViewDivider(mContext, LinearLayoutManager.VERTICAL));
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).build());
         mManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -88,14 +90,14 @@ public class BlogInfoFragment extends AbstractFragment {
                 loading_layout.setVisibility(View.VISIBLE);
                 load_pages++;
                 isLoad = true;
-                mHttpManager.getReview(id, load_pages);
+                mHttpManager.getReviewFromType("anime",load_pages+1);
             }
         });
     }
 
     @Override
     void initData() {
-        mHttpManager.getReview(id, 1);
+        mHttpManager.getReviewFromType("anime",1);
     }
 
     @Override
