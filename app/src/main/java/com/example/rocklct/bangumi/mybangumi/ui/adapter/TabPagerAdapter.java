@@ -16,9 +16,15 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
     private final ArrayList<String> tab_title_list = new ArrayList<>();
     private final ArrayList<Fragment> fragmentList = new ArrayList<>();
     private FragmentManager mFragmentManaget;
+    private int size = 3;
 
     public TabPagerAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    public TabPagerAdapter(FragmentManager fm,int size){
+        super(fm);
+        this.size = size;
     }
 
     //这个方法用于在外面添加tab标签名和对应的Fragment给adapter
@@ -39,6 +45,6 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return size;
     }
 }

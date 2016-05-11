@@ -501,13 +501,40 @@ public class HttpManager {
         }.start();
     }
 
-    public void getTopAnimation(int page) {
+    public void getTopAnimation(int page){
+        String url = BangumiAPi.getTopAnimation;
+        getTopItem(page,url);
+    }
+
+    public void getTopBook(int page){
+        String url = BangumiAPi.getTopBook;
+        getTopItem(page,url);
+    }
+
+    public void getTopMusic(int page){
+        getTopItem(page,BangumiAPi.getTopMusic);
+    }
+    public void getTopGame(int page){
+        getTopItem(page,BangumiAPi.getTopGame);
+    }
+
+    public void getTopReal(int page){
+        getTopItem(page,BangumiAPi.getTopReal);
+    }
+    public void getTopjpReal(int page){
+        getTopItem(page,BangumiAPi.getjpReal);
+    }
+
+    public void getTopenReal(int page){
+        getTopItem(page,BangumiAPi.getenReal);
+    }
+    public void getTopItem(int page, final String murl) {
         final int mpage = page;
         new Thread() {
             @Override
             public void run() {
                 super.run();
-                List list = getThumbnailItem(BangumiAPi.getTopAnimation, mpage);
+                List list = getThumbnailItem(murl, mpage);
                 if (list != null) {
                     Message msg = new Message();
                     Bundle bundle = new Bundle();

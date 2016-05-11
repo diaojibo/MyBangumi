@@ -16,6 +16,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.adapter.BlogInfoAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.OnScrollPauseListener;
 import com.example.rocklct.bangumi.mybangumi.util.Util;
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class BlogInfoFragment extends AbstractFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancesState) {
-        loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, container ,false);
+        loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, container, false);
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_detail);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_detail);
@@ -71,6 +72,7 @@ public class BlogInfoFragment extends AbstractFragment {
 
     private void initView() {
         mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(getContext()).build());
         mManager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -100,11 +102,12 @@ public class BlogInfoFragment extends AbstractFragment {
 
     @Override
     public void OnSuccess(List result) {
+        boolean isE = false;
         if (result.isEmpty()) {
             loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
             loadView.findViewById(R.id.tv_more_information).setVisibility(View.GONE);
             loadView.findViewById(R.id.load_null).setVisibility(View.VISIBLE);
-            return;
+            isE = true;
         }
 
         if (isRefresh) {
@@ -119,8 +122,10 @@ public class BlogInfoFragment extends AbstractFragment {
         }
 
         data.addAll(result);
-        loadView.findViewById(R.id.tv_more_information).setVisibility(View.VISIBLE);
-        loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
+        if (!isE) {
+            loadView.findViewById(R.id.tv_more_information).setVisibility(View.VISIBLE);
+            loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
+        }
         mAdapter.addCustomView(loadView, data.size(), BlogInfoAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
         Util.loadAnima(mProgressBar, mRecyclerView);

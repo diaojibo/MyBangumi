@@ -5,6 +5,12 @@ package com.example.rocklct.bangumi.mybangumi.constants;
  */
 public class BangumiAPi {
 
+    public static final String getjpReal = "http://bgm.tv/real/browser/platform/jp?sort=rank";
+    public static final String getenReal = "http://bgm.tv/real/browser/platform/en?sort=rank";
+    public static final String getTopReal = "http://bgm.tv/real/browser/platform/all?sort=rank";
+    public static final String getTopBook = "http://bgm.tv/book/browser?sort=rank";
+    public static final String getTopMusic = "http://bgm.tv/music/browser?sort=rank";
+    public static final String getTopGame = "http://bgm.tv/game/browser?sort=rank";
     public static final String getTopAnimation = "http://bangumi.tv/anime/browser?sort=rank";
     public static final String getSimpleItemInfo = "http://api.bgm.tv/subject/";
     public static final String getCalendar = "http://api.bgm.tv/calendar";

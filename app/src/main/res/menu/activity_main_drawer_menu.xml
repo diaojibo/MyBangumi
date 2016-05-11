@@ -18,5 +18,9 @@
             android:icon="@drawable/ic_videogame_asset_black_24dp"
             android:id="@+id/game"
             android:title="游戏" />
+        <item
+            android:icon="@drawable/ic_live_tv_black_24dp"
+            android:id="@+id/real"
+            android:title="三次元" />
     </group>
 </menu>

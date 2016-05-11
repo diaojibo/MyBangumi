@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/5/6.
  */
-public class AnimationBlog extends AbstractFragment {
+public class RealBlog extends AbstractFragment {
 
     private String id;
     private BlogInfoAdapter mAdapter;
@@ -37,8 +37,8 @@ public class AnimationBlog extends AbstractFragment {
     private int load_pages = 1;
     private LinearLayoutManager mManager;
 
-    public static AnimationBlog newInstance(String id) {
-        AnimationBlog fragment = new AnimationBlog();
+    public static RealBlog newInstance(String id) {
+        RealBlog fragment = new RealBlog();
         Bundle args = new Bundle();
         args.putString("id", id);
         fragment.setArguments(args);
@@ -90,14 +90,14 @@ public class AnimationBlog extends AbstractFragment {
                 loading_layout.setVisibility(View.VISIBLE);
                 load_pages++;
                 isLoad = true;
-                mHttpManager.getReviewFromType("anime",load_pages);
+                mHttpManager.getReviewFromType("real",load_pages);
             }
         });
     }
 
     @Override
     void initData() {
-        mHttpManager.getReviewFromType("anime",1);
+        mHttpManager.getReviewFromType("real",1);
     }
 
     @Override

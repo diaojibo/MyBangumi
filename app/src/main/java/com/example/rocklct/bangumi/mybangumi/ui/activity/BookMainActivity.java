@@ -14,10 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.testActivity;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 
-public class MainActivity extends AppCompatActivity
+public class BookMainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private android.support.v7.widget.Toolbar toolbar;
@@ -37,10 +36,6 @@ public class MainActivity extends AppCompatActivity
         initDrawer();
     }
 
-    public void test1(View v){
-        Intent intent = new Intent(MainActivity.this,testActivity.class);
-        startActivity(intent);
-    }
 
     private void initDrawer() {
         //设置DrawerLayout的header部分并且填充进去
@@ -62,7 +57,7 @@ public class MainActivity extends AppCompatActivity
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
 
         //取得一个自定义PagerAdapter的实例,用了自定义的类来取的对应的Adapter，要传入一个Fragment管理器
-        mAdapter = new GetTabAdapter(getSupportFragmentManager()).getAnimationTabAdapter();
+        mAdapter = new GetTabAdapter(getSupportFragmentManager()).getBookTabAdapter();
         mViewPager = (ViewPager) findViewById(R.id.myviewpager);
 
         //将缓存的页面数设置为相隔2
@@ -92,26 +87,28 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if(id == R.id.animation){
-            startActivity(new Intent(MainActivity.this,MainActivity.class));
+            startActivity(new Intent(BookMainActivity.this,MainActivity.class));
             return false;
         }
         if(id == R.id.book){
-            startActivity(new Intent(MainActivity.this,BookMainActivity.class));
+            startActivity(new Intent(BookMainActivity.this,BookMainActivity.class));
             return false;
         }
 
         if(id == R.id.music){
-            startActivity(new Intent(MainActivity.this,MusicMainActivity.class));
+            startActivity(new Intent(BookMainActivity.this,MusicMainActivity.class));
             return false;
         }
         if(id == R.id.game){
-            startActivity(new Intent(MainActivity.this,GameMainActivity.class));
+            startActivity(new Intent(BookMainActivity.this,GameMainActivity.class));
             return false;
         }
         if(id == R.id.real){
-            startActivity(new Intent(MainActivity.this,RealMainActivity.class));
+            startActivity(new Intent(BookMainActivity.this,RealMainActivity.class));
             return false;
         }
+
+
 
         return false;
     }
