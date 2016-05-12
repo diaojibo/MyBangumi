@@ -68,7 +68,7 @@ public class DetailAdapter extends AbstractAdapter {
             HeaderHolder headerHolder = (HeaderHolder) holder;
             DetailItemBean.DeatilInfoBean bean = (DetailItemBean.DeatilInfoBean) data.get(position);
             headerHolder.rv_air_summary.setText(bean.summary);
-            headerHolder.rv_air_date.setText(bean.air_date);
+            headerHolder.rv_air_date.setText("日期: "+bean.air_date);
             headerHolder.setOnRecycleViewItemClick(new OnRecycleViewItemClick() {
                 @Override
                 public void OnItemClick(View v, int position) {
