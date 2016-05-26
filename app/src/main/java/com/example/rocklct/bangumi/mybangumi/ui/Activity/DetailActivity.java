@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.ImageView;
 
@@ -25,6 +24,7 @@ public class DetailActivity extends AbstractSwipeActivity {
     private TabLayout mTabLayout;
     private ImageView item_image;
     private ImageLoader mImageLoader;
+    private android.support.v7.widget.Toolbar toolbars;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +52,12 @@ public class DetailActivity extends AbstractSwipeActivity {
     }
 
     public void initData() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbars = (android.support.v7.widget.Toolbar) findViewById(R.id.detail_toolbar);
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
         imgurl = intent.getStringExtra("image");
         title = intent.getStringExtra("title");
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
+        toolbars.setTitle(title);
+        setSupportActionBar(toolbars);
     }
 }

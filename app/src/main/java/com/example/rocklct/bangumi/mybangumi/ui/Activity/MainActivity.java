@@ -1,14 +1,19 @@
 package com.example.rocklct.bangumi.mybangumi.ui.activity;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +21,7 @@ import android.view.View;
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.testActivity;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
+import com.example.rocklct.bangumi.mybangumi.util.MySuggestionProvider;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,7 +89,34 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds mItems to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main , menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(true);
+        searchView.setQueryRefinementEnabled(true);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //save record of searching
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getApplicationContext(),
+                        MySuggestionProvider.AUTHORITY,MySuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query,null);
+
+                Intent intent = new Intent(getApplicationContext(),)
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         return true;
     }
 
@@ -115,4 +148,6 @@ public class MainActivity extends AppCompatActivity
 
         return false;
     }
+
+
 }
