@@ -11,6 +11,9 @@ import android.util.Log;
  */
 public class SearchActvity extends AppCompatActivity {
 
+
+
+
     public void init(){
         String query;
         Intent intent = getIntent();
