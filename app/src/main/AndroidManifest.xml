@@ -48,6 +48,13 @@
         <activity android:name=".ui.activity.DetailActivity">
 
         </activity>
+        <activity android:name=".ui.activity.SearchActvity"
+            android:launchMode="singleTop"
+            android:label="搜索">
+        </activity>
+        <provider
+            android:authorities="com.example.rocklct.bangumi.util.MySuggestionProvider"
+            android:name=".util.MySuggestionProvider"/>
     </application>
 
 </manifest>

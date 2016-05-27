@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds mItems to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main , menu);
-        MenuItem menuItem = menu.findItem(R.id.action_search);
+        final MenuItem menuItem = menu.findItem(R.id.action_search);
 
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
         final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -107,7 +107,9 @@ public class MainActivity extends AppCompatActivity
                         MySuggestionProvider.AUTHORITY,MySuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query,null);
 
-                Intent intent = new Intent(getApplicationContext(),)
+                Intent intent = new Intent(getApplicationContext(),SearchActvity.class);
+                intent.putExtra("query",query);
+                startActivity(intent);
 
                 return true;
             }
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity
                 return false;
             }
         });
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
