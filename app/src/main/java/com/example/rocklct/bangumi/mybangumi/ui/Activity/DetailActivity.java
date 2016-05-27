@@ -32,7 +32,6 @@ public class DetailActivity extends AbstractSwipeActivity {
         setContentView(R.layout.activity_detail);
         initData();
         initView();
-        Log.d("httptest2", "cao" + id);
     }
 
 

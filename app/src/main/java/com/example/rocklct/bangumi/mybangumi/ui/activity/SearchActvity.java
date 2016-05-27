@@ -3,16 +3,23 @@ package com.example.rocklct.bangumi.mybangumi.ui.activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+
+import com.example.rocklct.bangumi.mybangumi.R;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationTop;
 
 /**
  * Created by rocklct on 2016/5/26.
  */
-public class SearchActvity extends AppCompatActivity {
+public class SearchActvity extends AbstractSwipeActivity {
 
 
-
+    Toolbar toolbar;
 
     public void init(){
         String query;
@@ -23,11 +30,21 @@ public class SearchActvity extends AppCompatActivity {
             query = getIntent().getStringExtra("query");
         }
         Log.d("searchtest","search into new activity");
+
+        Fragment fragment = new AnimationTop();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.search_container,fragment);
+        fragmentTransaction.commit();
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.search_toolbar);
+        setSupportActionBar(toolbar);
         init();
     }
 }

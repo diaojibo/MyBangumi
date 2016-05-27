@@ -10,38 +10,26 @@
 
     <!--AppBarLayout常用来实现一些滚动效果，经常和CoordinatorLayout配套使用，为第一个子节点-->
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/myappbar"
+        android:id="@+id/search_appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <!--工具栏toolbar，将取代Actionbar-->
         <android.support.v7.widget.Toolbar
-            android:id="@+id/mytoolbar"
+            android:id="@+id/search_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:minHeight="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|snap" />
 
-        <!--TabLayout 用以定义标签页-->
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.design.widget.TabLayout>
 
     </android.support.design.widget.AppBarLayout>
     <RelativeLayout
+        android:id="@+id/search_container"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.view.ViewPager
-            android:id="@+id/myviewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v4.view.ViewPager>
 
     </RelativeLayout>
 
