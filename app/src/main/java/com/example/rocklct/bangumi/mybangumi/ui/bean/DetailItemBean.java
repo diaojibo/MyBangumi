@@ -44,7 +44,7 @@ public class DetailItemBean extends BaseBean {
     }
 
 
-    public class imageBean {
+    public static class imageBean {
         public String large;
         public String medium;
         public String small;
@@ -52,7 +52,7 @@ public class DetailItemBean extends BaseBean {
     }
 
 
-    public class crtBean extends BaseBean {
+    public static class crtBean extends BaseBean {
         public String id;
         public String name_cn;
         public String name;
@@ -69,11 +69,11 @@ public class DetailItemBean extends BaseBean {
             return nn;
         }
 
-        public class actorBean {
+        public static class actorBean {
             public String name;
         }
 
-        public class imageBean {
+        public static class imageBean {
             public String large;
             public String medium;
             public String small;
@@ -83,7 +83,7 @@ public class DetailItemBean extends BaseBean {
         public String cv;
     }
 
-    public class staffBean {
+    public static class staffBean {
         String id;
         String name;
         String name_cn;

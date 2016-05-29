@@ -16,7 +16,7 @@ import android.view.View;
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 
-public class MusicMainActivity extends AppCompatActivity
+public class MusicMainActivity extends AbstractActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private android.support.v7.widget.Toolbar toolbar;
@@ -73,11 +73,6 @@ public class MusicMainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

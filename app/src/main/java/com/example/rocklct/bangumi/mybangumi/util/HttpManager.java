@@ -356,7 +356,7 @@ public class HttpManager {
                         for (Element e : imgs) {
                             imgurl = e.attr("style");
                             String pattern = "'(.*)'";
-                            String tests = imgurl.replace("/s/","/l/");
+                            String tests = imgurl.replace("/s/", "/l/");
                             Pattern r = Pattern.compile(pattern);
                             Matcher m = r.matcher(tests);
                             if (m.find()) {
@@ -501,33 +501,42 @@ public class HttpManager {
         }.start();
     }
 
-    public void getTopAnimation(int page){
+    public void getSearchItems(String name, int page) {
+        String url = BangumiAPi.getSearchItemURL(name);
+        getTopItem(page,url);
+    }
+
+
+    public void getTopAnimation(int page) {
         String url = BangumiAPi.getTopAnimation;
-        getTopItem(page,url);
+        getTopItem(page, url);
     }
 
-    public void getTopBook(int page){
+    public void getTopBook(int page) {
         String url = BangumiAPi.getTopBook;
-        getTopItem(page,url);
+        getTopItem(page, url);
     }
 
-    public void getTopMusic(int page){
-        getTopItem(page,BangumiAPi.getTopMusic);
-    }
-    public void getTopGame(int page){
-        getTopItem(page,BangumiAPi.getTopGame);
+    public void getTopMusic(int page) {
+        getTopItem(page, BangumiAPi.getTopMusic);
     }
 
-    public void getTopReal(int page){
-        getTopItem(page,BangumiAPi.getTopReal);
-    }
-    public void getTopjpReal(int page){
-        getTopItem(page,BangumiAPi.getjpReal);
+    public void getTopGame(int page) {
+        getTopItem(page, BangumiAPi.getTopGame);
     }
 
-    public void getTopenReal(int page){
-        getTopItem(page,BangumiAPi.getenReal);
+    public void getTopReal(int page) {
+        getTopItem(page, BangumiAPi.getTopReal);
     }
+
+    public void getTopjpReal(int page) {
+        getTopItem(page, BangumiAPi.getjpReal);
+    }
+
+    public void getTopenReal(int page) {
+        getTopItem(page, BangumiAPi.getenReal);
+    }
+
     public void getTopItem(int page, final String murl) {
         final int mpage = page;
         new Thread() {

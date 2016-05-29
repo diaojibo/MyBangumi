@@ -17,19 +17,25 @@ public class BangumiAPi {
     public static final String getDetailItem = "http://api.bgm.tv/subject/";
     public static final String getSubjectRoot = "http://bgm.tv/subject/";
     public static final String getReviewRoot = "http://bgm.tv/";
+    public static final String getSearchItem = "http://bgm.tv/subject_search/";
 //    public static final String getReview = "https://bgm.tv/subject/253/reviews";
 
 
-    public static String getReviewFromType(String type,int page){
-        return getReviewRoot+type+"/blog/"+page+".html";
+    public static String getSearchItemURL(String name) {
+        return getSearchItem + name + "?cat=all";
     }
 
-    public static String getReviewUrl(String id,int page){
-        return getSubjectRoot+id+"/reviews/"+page+".html";
+
+    public static String getReviewFromType(String type, int page) {
+        return getReviewRoot + type + "/blog/" + page + ".html";
     }
 
-    public static String getCommentUrl(String id,int page){
-        return getSubjectRoot+id+"/comments"+"?page="+page;
+    public static String getReviewUrl(String id, int page) {
+        return getSubjectRoot + id + "/reviews/" + page + ".html";
+    }
+
+    public static String getCommentUrl(String id, int page) {
+        return getSubjectRoot + id + "/comments" + "?page=" + page;
     }
 
 }

@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationTop;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.SearchFragment;
 
 /**
  * Created by rocklct on 2016/5/26.
@@ -31,7 +32,12 @@ public class SearchActvity extends AbstractSwipeActivity {
         }
         Log.d("searchtest","search into new activity");
 
-        Fragment fragment = new AnimationTop();
+        Fragment fragment = new SearchFragment();
+        //put search query into the bundle sent to the fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("SearchName",query);
+        fragment.setArguments(bundle);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.search_container,fragment);
