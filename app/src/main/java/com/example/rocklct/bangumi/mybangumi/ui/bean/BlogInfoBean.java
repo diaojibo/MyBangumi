@@ -4,14 +4,16 @@ package com.example.rocklct.bangumi.mybangumi.ui.bean;
  * Created by rocklct on 2016/5/9.
  */
 public class BlogInfoBean extends BaseBean {
+    public String detailurl;
     public String title;
     public String author;
     public String summary;
     public String time;
     public String imgurl;
 
-    public BlogInfoBean(String title, String author, String summary, String time, String imgurl) {
+    public BlogInfoBean(String title, String author, String summary, String time, String imgurl,String detailurl) {
         this.title = title;
+        this.detailurl = detailurl;
         this.author = author;
         this.summary = summary;
         this.time = time;

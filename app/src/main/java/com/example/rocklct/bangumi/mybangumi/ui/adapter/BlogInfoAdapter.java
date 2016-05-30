@@ -1,7 +1,10 @@
 package com.example.rocklct.bangumi.mybangumi.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,10 +85,15 @@ public class BlogInfoAdapter extends AbstractAdapter {
             itemHolder.rv_blog_author.setText(bean.author+" ");
             itemHolder.rv_blog_time.setText(bean.time);
             itemHolder.rv_blog_summary.setText(bean.summary);
+
+            final String blogurl = bean.detailurl;
             itemHolder.setOnRecycleViewItemClick(new OnRecycleViewItemClick() {
                 @Override
                 public void OnItemClick(View v, int position) {
-
+                    Uri uri = Uri.parse(blogurl);
+//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+//                    mContext.startActivity(intent);
+                    Log.d("testWebView","entersucc");
                 }
             });
         }

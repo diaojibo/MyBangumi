@@ -208,6 +208,14 @@ public class HttpManager {
                     Elements items = entry_list.getElementsByClass("item");
                     for (Element element : items) {
 
+                        //get detailurl
+                        String detailurl = "";
+                        Element title_el = element.getElementsByClass("title").get(0);
+                        Element title_a = title_el.getElementsByTag("a").get(0);
+                        if (title_a != null) {
+                            detailurl = BangumiAPi.getBangumiApiroot + title_a.attr("href");
+                        }
+
                         //get imageinfo
                         String imgurl = "";
                         Elements imgs = element.getElementsByTag("img");
@@ -245,7 +253,7 @@ public class HttpManager {
 
 
                         Log.d("tt2", imgurl);
-                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl);
+                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl, detailurl);
                         list.add(bean);
 
                     }
@@ -281,6 +289,16 @@ public class HttpManager {
                     Elements items = entry_list.getElementsByClass("item");
                     for (Element element : items) {
 
+
+                        //get detailurl
+                        String detailurl = "";
+                        Element title_el = element.getElementsByClass("title").get(0);
+                        Element title_a = title_el.getElementsByTag("a").get(0);
+                        if (title_a != null) {
+                            detailurl = BangumiAPi.getBangumiApiroot + title_a.attr("href");
+                        }
+
+
                         //get imageinfo
                         String imgurl = "";
                         Elements imgs = element.getElementsByTag("img");
@@ -314,8 +332,8 @@ public class HttpManager {
                         }
 
 
-                        Log.d("tt2", imgurl);
-                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl);
+                        Log.d("tt2","detail " + detailurl);
+                        BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl, detailurl);
                         list.add(bean);
 
                     }
@@ -503,7 +521,7 @@ public class HttpManager {
 
     public void getSearchItems(String name, int page) {
         String url = BangumiAPi.getSearchItemURL(name);
-        getTopItem(page,url);
+        getTopItem(page, url);
     }
 
 

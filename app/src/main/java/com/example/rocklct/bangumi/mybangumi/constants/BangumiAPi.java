@@ -17,6 +17,7 @@ public class BangumiAPi {
     public static final String getDetailItem = "http://api.bgm.tv/subject/";
     public static final String getSubjectRoot = "http://bgm.tv/subject/";
     public static final String getReviewRoot = "http://bgm.tv/";
+    public static final String getBangumiApiroot = "http://bgm.tv";
     public static final String getSearchItem = "http://bgm.tv/subject_search/";
 //    public static final String getReview = "https://bgm.tv/subject/253/reviews";
 
