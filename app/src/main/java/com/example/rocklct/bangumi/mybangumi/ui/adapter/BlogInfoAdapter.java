@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.rocklct.bangumi.mybangumi.R;
+import com.example.rocklct.bangumi.mybangumi.ui.activity.WebViewActivity;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BaseBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.BlogInfoBean;
 import com.example.rocklct.bangumi.mybangumi.ui.viewholder.LoadViewHolder;
@@ -40,7 +41,7 @@ public class BlogInfoAdapter extends AbstractAdapter {
     @Override
     public int getItemViewType(int position) {
         int type = mData.get(position).getView_type();
-        switch (type){
+        switch (type) {
             case TYPE_LOAD:
                 type = TYPE_LOAD;
                 break;
@@ -82,7 +83,7 @@ public class BlogInfoAdapter extends AbstractAdapter {
             }
 
             itemHolder.rv_blog_title.setText(bean.getTitle());
-            itemHolder.rv_blog_author.setText(bean.author+" ");
+            itemHolder.rv_blog_author.setText(bean.author + " ");
             itemHolder.rv_blog_time.setText(bean.time);
             itemHolder.rv_blog_summary.setText(bean.summary);
 
@@ -91,9 +92,10 @@ public class BlogInfoAdapter extends AbstractAdapter {
                 @Override
                 public void OnItemClick(View v, int position) {
                     Uri uri = Uri.parse(blogurl);
-//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-//                    mContext.startActivity(intent);
-                    Log.d("testWebView","entersucc");
+                    Intent intent = new Intent(mContext, WebViewActivity.class);
+                    intent.putExtra("url",blogurl);
+                    mContext.startActivity(intent);
+                    Log.d("testWebView", "entersucc");
                 }
             });
         }
@@ -116,6 +118,7 @@ public class BlogInfoAdapter extends AbstractAdapter {
 
         public BlogInfoHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             rv_blog_title = (TextView) itemView.findViewById(R.id.rv_blog_title);
             rv_blog_summary = (TextView) itemView.findViewById(R.id.rv_blog_summary);
             rv_blog_time = (TextView) itemView.findViewById(R.id.rv_blog_time);
@@ -130,7 +133,9 @@ public class BlogInfoAdapter extends AbstractAdapter {
 
         @Override
         public void onClick(View v) {
-            onRecycleViewItemClick.OnItemClick(v, getPosition());
+            if (onRecycleViewItemClick != null) {
+                onRecycleViewItemClick.OnItemClick(v, getPosition());
+            }
         }
     }
 

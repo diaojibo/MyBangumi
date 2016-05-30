@@ -52,6 +52,10 @@
             android:launchMode="singleTop"
             android:label="搜索">
         </activity>
+        <activity android:name=".ui.activity.WebViewActivity"
+            >
+
+        </activity>
         <provider
             android:authorities="com.example.rocklct.bangumi.util.MySuggestionProvider"
             android:name=".util.MySuggestionProvider"/>
