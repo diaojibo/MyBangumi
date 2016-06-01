@@ -37,7 +37,6 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     public void initView() {
-//        webView = new WebView(this);
         setContentView(R.layout.activity_webview);
         webView = (WebView) findViewById(R.id.blog_webview);
         progressBar = (ProgressBar) findViewById(R.id.progressbar_webview);
