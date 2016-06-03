@@ -33,7 +33,6 @@ public class WebViewActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        ;
     }
 
     public void initView() {
