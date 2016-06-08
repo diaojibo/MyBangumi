@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.rocklct.bangumi.mybangumi.R;
-import com.example.rocklct.bangumi.mybangumi.testActivity;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 import com.example.rocklct.bangumi.mybangumi.util.MySuggestionProvider;
 
@@ -43,10 +42,6 @@ public class MainActivity extends AppCompatActivity
         initDrawer();
     }
 
-    public void test1(View v){
-        Intent intent = new Intent(MainActivity.this,testActivity.class);
-        startActivity(intent);
-    }
 
     private void initDrawer() {
         //设置DrawerLayout的header部分并且填充进去
