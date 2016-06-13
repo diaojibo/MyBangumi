@@ -2,6 +2,7 @@ package com.example.rocklct.bangumi.mybangumi.util;
 
 import android.support.v4.app.FragmentManager;
 
+import com.example.rocklct.bangumi.mybangumi.BangumiApp;
 import com.example.rocklct.bangumi.mybangumi.ui.adapter.TabPagerAdapter;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationBlog;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.AnimationCalendar;
@@ -15,6 +16,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.fragment.GameBlog;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.GameTop;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.MusicBlog;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.MusicTop;
+import com.example.rocklct.bangumi.mybangumi.ui.fragment.MyCommentFragment;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.RealAllTop;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.RealBlog;
 import com.example.rocklct.bangumi.mybangumi.ui.fragment.RealENTop;
@@ -34,10 +36,20 @@ public class GetTabAdapter {
     }
 
     public TabPagerAdapter getDeatilTabAdapter(String id) {
-        tpa = new TabPagerAdapter(fm);
+        int number = 3;
+        boolean state = false;
+        SessionManager sessionManager = BangumiApp.getmInstance().getSession();
+        if (sessionManager.isLogin()){
+            number = 4;
+            state = true;
+        }
+        tpa = new TabPagerAdapter(fm,number);
         tpa.addFragment("介绍", DetailFragment.newInstance(id));
         tpa.addFragment("吐槽", CommentFragment.newInstance(id));
         tpa.addFragment("评论", BlogInfoFragment.newInstance(id));
+        if(state){
+            tpa.addFragment("我的评价", MyCommentFragment.newInstance(id));
+        }
         return tpa;
     }
 

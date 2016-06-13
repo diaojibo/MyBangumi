@@ -1,17 +1,10 @@
 package com.example.rocklct.bangumi.mybangumi.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
@@ -19,11 +12,8 @@ import com.example.rocklct.bangumi.mybangumi.util.GetTabAdapter;
 public class BookMainActivity extends AbstractActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private android.support.v7.widget.Toolbar toolbar;
     private ViewPager mViewPager;
     private FragmentPagerAdapter mAdapter;
-    private NavigationView mNavigationView;
-    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,21 +27,7 @@ public class BookMainActivity extends AbstractActivity
     }
 
 
-    private void initDrawer() {
-        //设置DrawerLayout的header部分并且填充进去
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        //设置监听，点击侧边栏事件
-        mNavigationView.setNavigationItemSelectedListener(this);
-
-        View nav_header = mNavigationView.inflateHeaderView(R.layout.nav_header);
-
-        //设置toggle监听和Drawer绑定到一起
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,R.string.nav_drawer_open,R.string.nav_drawer_close);
-        mDrawerLayout.setDrawerListener(toggle);
-        toggle.syncState();
-    }
 
     private void initTabs() {
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -76,35 +52,4 @@ public class BookMainActivity extends AbstractActivity
 
 
 
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if(id == R.id.animation){
-            startActivity(new Intent(BookMainActivity.this,MainActivity.class));
-            return false;
-        }
-        if(id == R.id.book){
-            startActivity(new Intent(BookMainActivity.this,BookMainActivity.class));
-            return false;
-        }
-
-        if(id == R.id.music){
-            startActivity(new Intent(BookMainActivity.this,MusicMainActivity.class));
-            return false;
-        }
-        if(id == R.id.game){
-            startActivity(new Intent(BookMainActivity.this,GameMainActivity.class));
-            return false;
-        }
-        if(id == R.id.real){
-            startActivity(new Intent(BookMainActivity.this,RealMainActivity.class));
-            return false;
-        }
-
-
-
-        return false;
-    }
 }

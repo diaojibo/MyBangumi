@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#F09199</color>
     <color name="nav_header_background">#F09199</color>
+    <color name="primary">#F09199</color>
+
+    <color name="text_primary">#212121</color>
 </resources>

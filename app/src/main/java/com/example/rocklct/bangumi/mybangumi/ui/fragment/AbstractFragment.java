@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by rocklct on 2016/3/24.
  */
-public abstract class AbstractFragment extends Fragment implements HttpManager.OnConnectListener{
+public abstract class AbstractFragment extends Fragment implements HttpManager.OnConnectListener,SwipeRefreshLayout.OnRefreshListener{
    public HttpManager mHttpManager;
    protected RecyclerView mRecyclerView;
    protected ProgressBar mProgressBar;
@@ -44,8 +44,8 @@ public abstract class AbstractFragment extends Fragment implements HttpManager.O
    abstract void initData();
 
 
+   @Override
+   public void onRefresh() {
 
-
-
-
+   }
 }

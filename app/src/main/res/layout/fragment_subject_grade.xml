@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical"
+    android:layout_marginBottom="?attr/actionBarSize"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/base_padding"
+        android:orientation="vertical"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/subject_grade_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <!-- status -->
+            <TextView
+                android:id="@+id/subject_status_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_subject_status"
+                style="@style/label_primary"
+                />
+
+
+            <RadioGroup
+                android:id="@+id/subject_status_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/base_padding"
+                android:orientation="vertical"
+                >
+
+                <RadioButton
+                    android:id="@+id/subject_status_wish"
+                    style="@style/radio"
+                    android:text="@string/wish"/>
+
+                <RadioButton
+                    android:id="@+id/subject_status_watched"
+                    style="@style/radio"
+                    android:text="@string/watched"/>
+
+                <RadioButton
+                    android:id="@+id/subject_status_watching"
+                    style="@style/radio"
+                    android:text="@string/watching"/>
+
+                <RadioButton
+                    android:id="@+id/subject_status_on_hold"
+                    style="@style/radio"
+                    android:text="@string/on_hold"/>
+
+                <RadioButton
+                    android:id="@+id/subject_status_drop"
+                    style="@style/radio"
+                    android:text="@string/drop_collection"
+                    />
+
+            </RadioGroup>
+
+            <!-- rating -->
+            <TextView
+                android:id="@+id/subject_rating_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_subject_rating"
+                style="@style/label_primary"
+                />
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/comment_ratingbar"
+                android:isIndicator="false"
+                android:stepSize="0.5"
+                />
+
+            <!-- comment -->
+            <TextView
+                android:id="@+id/subject_comment_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_subject_comment"
+                style="@style/label_primary"
+                />
+
+
+            <EditText
+                android:id="@+id/subject_comment_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            </EditText>
+
+            <Button
+                android:id="@+id/postComment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提交"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

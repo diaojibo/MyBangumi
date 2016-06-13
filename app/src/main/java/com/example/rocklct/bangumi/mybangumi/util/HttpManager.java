@@ -13,6 +13,7 @@ import com.example.rocklct.bangumi.mybangumi.ui.bean.BlogInfoBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.CalendarItemsBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.CommentBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.DetailItemBean;
+import com.example.rocklct.bangumi.mybangumi.ui.bean.LoginInfoBean;
 import com.example.rocklct.bangumi.mybangumi.ui.bean.ThumbnailBean;
 
 import org.jsoup.Jsoup;
@@ -57,7 +58,7 @@ public class HttpManager {
 
             //分不同的情况handler发送处理
             if (result == null || result.isEmpty()) {
-                onConnectListener.OnError(tag);
+                onConnectListener.OnError(1);
             } else if (type == "getTop") {
                 List<BaseBean> list = bundle.getParcelableArrayList("data");
                 onConnectListener.OnSuccess(list);
@@ -77,6 +78,19 @@ public class HttpManager {
                 List<BaseBean> resultlist = bundle.getParcelableArrayList("data");
                 Log.d("tt2", "miaomiaomiao2");
                 onConnectListener.OnSuccess(resultlist);
+            } else if (type == "login") {
+                String logininfo = bundle.getString("login");
+                if (logininfo.contains("error")) {
+                    onConnectListener.OnError(OnConnectListener.INFOERROR);
+                } else {
+                    LoginInfoBean loginInfoBean = JSON.parseObject(logininfo, LoginInfoBean.class);
+                    List list = new ArrayList<BaseBean>();
+                    list.add(loginInfoBean);
+                    onConnectListener.OnSuccess(list);
+                }
+            }else if(type == "updateComment"){
+                Log.d("tt4",bundle.getString("updateComment"));
+                onConnectListener.OnSuccess(new ArrayList());
             }
 
         }
@@ -84,7 +98,10 @@ public class HttpManager {
 
     public interface OnConnectListener {
         //        void OnSuccess(String result, int tag);
+        public static int INFOERROR = 100;
+
         void OnSuccess(List result);
+
 
         void OnError(int tag);
     }
@@ -118,6 +135,103 @@ public class HttpManager {
 
         return result;
     }
+
+    public void postComment(String id,String status, float rating, String comment){
+        String data = "status="+status+"&rating="+rating+"&comment="+comment;
+        Log.d("tt4",data);
+        Log.d("tt4",BangumiAPi.getUpdateCommentURL(id));
+        doPGET(BangumiAPi.getUpdateCommentURL(id),data,"updateComment");
+
+    }
+
+
+    public void doPGET(final String murl, final String data, final String tag) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(murl);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+                    conn.setUseCaches(false);
+                    byte[] bytes = data.getBytes();
+                    conn.getOutputStream().write(bytes);
+                    int response = conn.getResponseCode();
+                    Bundle bundle = new Bundle();
+                    if (response == conn.HTTP_OK) {
+                        bundle.putString("result", "succ");
+                        bundle.putString("getType", tag);
+                        InputStream is = conn.getInputStream();
+                        String result = readIs(is);
+                        bundle.putString(tag, result);
+                    }
+                    Message msg = new Message();
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+
+
+    }
+
+
+    public String tryLogin(final String username, final String password) {
+
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    URL url = new URL(BangumiAPi.loginUrl);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setReadTimeout(10000);
+                    conn.setConnectTimeout(15000);
+                    conn.setRequestMethod("POST");
+                    conn.setDoInput(true);
+                    conn.setDoOutput(true);
+                    conn.setUseCaches(false);
+                    StringBuffer params = new StringBuffer();
+                    StringBuffer appends = params.append("username=").append(username).append("&password=").append(password);
+                    byte[] bytes = params.toString().getBytes();
+                    conn.getOutputStream().write(bytes);
+                    int response = conn.getResponseCode();
+                    Bundle bundle = new Bundle();
+                    if (response == conn.HTTP_OK) {
+                        bundle.putString("result", "succ");
+                        bundle.putString("getType", "login");
+                        InputStream is = conn.getInputStream();
+                        String result = readIs(is);
+                        bundle.putString("login", result);
+                    }
+                    Message msg = new Message();
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
+
+
+        return null;
+    }
+
 
     public String getCalendarJson(String murl) {
         String result = "";
@@ -332,7 +446,7 @@ public class HttpManager {
                         }
 
 
-                        Log.d("tt2","detail " + detailurl);
+                        Log.d("tt2", "detail " + detailurl);
                         BlogInfoBean bean = new BlogInfoBean(title, author, content, time, imgurl, detailurl);
                         list.add(bean);
 

@@ -134,4 +134,9 @@ public class AnimationBlog extends AbstractFragment {
     public void OnError(int tag) {
 
     }
+
+    @Override
+    public void onRefresh() {
+
+    }
 }

@@ -4,4 +4,30 @@
     <string name="nav_drawer_open">Open Navigation drawer</string>
     <string name="nav_drawer_close">Close Navigation drawer</string>
     <string name="have_no_score">暂无评分</string>
+    <!-- error -->
+    <string name="error_username_must_not_be_empty">用户名不能为空</string>
+    <string name="error_password_must_not_be_empty">密码不能为空</string>
+    <!-- label (TextView) -->
+    <string name="label_subject_summary">作品简介</string>
+    <string name="label_subject_date">放送日期</string>
+    <string name="label_subject_weekday">放送星期</string>
+    <string name="label_subject_web">其他具体内容</string>
+    <string name="label_subject_type">类型</string>
+    <string name="label_subject_status">状态</string>
+    <string name="label_subject_rating">评分</string>
+    <string name="label_subject_comment">吐槽</string>
+    <string name="label_please_login_first">请先登录</string>
+    <string name="label_subject_status_default">暂无</string>
+    <string name="label_subject_rating_default">暂无</string>
+    <string name="label_subject_comment_default">暂无吐槽</string>
+
+    <string name="wish">想看</string>
+    <string name="queue"></string>
+    <string name="watched">看过</string>
+    <string name="watching">在看</string>
+    <string name="on_hold">搁置</string>
+    <string name="drop">抛弃</string>
+    <string name="drop_collection">弃番</string>
+    <string name="undo">撤销</string>
+
 </resources>

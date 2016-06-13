@@ -11,4 +11,29 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- button -->
+    <style name="button_rectangle">
+        <item name="android:minWidth">@dimen/btn_min_width</item>
+        <item name="android:height">@dimen/btn_height</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/button_rectangle</item>
+    </style>
+
+    <style name="radio">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+     <!-- label -->
+    <style name="label_primary">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:paddingBottom">@dimen/base_padding</item>
+    </style>
+
+    <style name="text_primary">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:paddingBottom">@dimen/base_padding</item>
+    </style>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.rocklct.bangumi.mybangumi.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -55,6 +56,8 @@ public class CommentFragment extends AbstractFragment {
         loadView = LayoutInflater.from(getContext()).inflate(R.layout.title_item, container ,false);
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_detail);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.detail_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_detail);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -109,6 +112,7 @@ public class CommentFragment extends AbstractFragment {
         if (isRefresh) {
             data.clear();
             mAdapter.notifyDataSetChanged();
+            load_pages = 1;
             isRefresh = false;
         }
 
@@ -123,6 +127,7 @@ public class CommentFragment extends AbstractFragment {
         mAdapter.addCustomView(loadView, data.size(), CommentAdapter.TYPE_LOAD);
         mAdapter.notifyDataSetChanged();
         Util.loadAnima(mProgressBar, mRecyclerView);
+        mSwipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -130,5 +135,11 @@ public class CommentFragment extends AbstractFragment {
     @Override
     public void OnError(int tag) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        mHttpManager.getComment(id,1);
     }
 }

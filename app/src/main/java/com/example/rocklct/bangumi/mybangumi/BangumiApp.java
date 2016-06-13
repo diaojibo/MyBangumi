@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.FileCache;
 import com.example.rocklct.bangumi.mybangumi.util.ImageLoader.ImageLoader;
+import com.example.rocklct.bangumi.mybangumi.util.SessionManager;
 
 /**
  * Created by rocklct on 2016/4/18.
@@ -14,6 +15,7 @@ public class BangumiApp extends Application {
     public ImageLoader mImageLoader;
     private int mScreenWidth,mScreenHeight;
     private FileCache mFileCache;
+    private SessionManager session;
 
 
     public FileCache getmFileCache(){
@@ -46,5 +48,12 @@ public class BangumiApp extends Application {
         mScreenHeight = getResources().getDisplayMetrics().heightPixels;
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
 
+    }
+
+    public SessionManager getSession(){
+        if (session == null){
+            session = new SessionManager(getApplicationContext());
+        }
+        return session;
     }
 }

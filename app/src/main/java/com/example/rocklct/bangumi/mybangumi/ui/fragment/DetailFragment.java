@@ -1,9 +1,11 @@
 package com.example.rocklct.bangumi.mybangumi.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +46,8 @@ public class DetailFragment extends AbstractFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstancesState) {
 
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.detail_swipe);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
         mProgressBar = (ProgressBar) view.findViewById(R.id.pb_detail);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.rv_detail);
         mRecyclerView.setHasFixedSize(true);
@@ -72,6 +76,7 @@ public class DetailFragment extends AbstractFragment {
             mData.clear();
             mAdapter.notifyDataSetChanged();
             isRefresh = false;
+
         }
 
 
@@ -79,6 +84,7 @@ public class DetailFragment extends AbstractFragment {
         data.addAll(result);
         mAdapter.notifyDataSetChanged();
         Util.loadAnima(mProgressBar,mRecyclerView);
+        mSwipeRefreshLayout.setRefreshing(false);
 
     }
 
@@ -86,5 +92,13 @@ public class DetailFragment extends AbstractFragment {
     @Override
     public void OnError(int tag) {
 
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        Log.d("tt4","load data refresh");
+        mHttpManager.getDetailItem(id);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 }
