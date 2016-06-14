@@ -10,7 +10,7 @@
     <application
         android:name=".BangumiApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bangumiicon"
         android:label="@string/toolbar_title"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
