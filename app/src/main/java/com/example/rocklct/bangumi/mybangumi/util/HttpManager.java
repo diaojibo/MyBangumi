@@ -88,8 +88,8 @@ public class HttpManager {
                     list.add(loginInfoBean);
                     onConnectListener.OnSuccess(list);
                 }
-            }else if(type == "updateComment"){
-                Log.d("tt4",bundle.getString("updateComment"));
+            } else if (type == "updateComment") {
+                Log.d("tt4", bundle.getString("updateComment"));
                 onConnectListener.OnSuccess(new ArrayList());
             }
 
@@ -136,11 +136,11 @@ public class HttpManager {
         return result;
     }
 
-    public void postComment(String id,String status, float rating, String comment){
-        String data = "status="+status+"&rating="+rating+"&comment="+comment;
-        Log.d("tt4",data);
-        Log.d("tt4",BangumiAPi.getUpdateCommentURL(id));
-        doPGET(BangumiAPi.getUpdateCommentURL(id),data,"updateComment");
+    public void postComment(String id, String status, float rating, String comment) {
+        String data = "status=" + status + "&rating=" + rating + "&comment=" + comment;
+        Log.d("tt4", data);
+        Log.d("tt4", BangumiAPi.getUpdateCommentURL(id));
+        doPGET(BangumiAPi.getUpdateCommentURL(id), data, "updateComment");
 
     }
 
@@ -261,42 +261,45 @@ public class HttpManager {
         try {
             Document doc = Jsoup.connect(url).get();
             Element section = doc.getElementById("browserItemList");
-            Elements lists = section.getElementsByTag("li");
-            int num = 0;
-            for (Element li : lists) {
-                float rate = 0;
-                String imgurl = "";
-                String title = "";
+            if (section != null) {
+                Elements lists = section.getElementsByTag("li");
+                int num = 0;
+                for (Element li : lists) {
+                    float rate = 0;
+                    String imgurl = "";
+                    String title = "";
 
-                //爬取页面获取评分
-                Elements rate_es = li.getElementsByClass("fade");
-                for (Element rate_e : rate_es) {
-                    rate = Float.parseFloat(rate_e.text());
-                }
+                    //爬取页面获取评分
+                    Elements rate_es = li.getElementsByClass("fade");
+                    for (Element rate_e : rate_es) {
+                        rate = Float.parseFloat(rate_e.text());
+                    }
 
-                //抓取图片的链接
-                Elements imgs = li.getElementsByTag("img");
-                for (Element img : imgs) {
-                    imgurl = img.attr("src").replace("/s/", "/c/");
-                    imgurl = "https:" + imgurl;
-                }
+                    //抓取图片的链接
+                    Elements imgs = li.getElementsByTag("img");
+                    for (Element img : imgs) {
+                        imgurl = img.attr("src").replace("/s/", "/c/");
+                        imgurl = "https:" + imgurl;
+                    }
 
-                Elements title_es = li.getElementsByClass("l");
-                for (Element title_e : title_es) {
-                    title = title_e.text();
-                }
+                    Elements title_es = li.getElementsByClass("l");
+                    for (Element title_e : title_es) {
+                        title = title_e.text();
+                    }
 
 
-                Log.d("testhttp", String.valueOf(rate));
-                Log.d("testhttp", imgurl);
-                Log.d("testhttp", title);
+                    Log.d("testhttp", String.valueOf(rate));
+                    Log.d("testhttp", imgurl);
+                    Log.d("testhttp", title);
 
-                String item_id = (li.attr("id").split("_"))[1];
-                ThumbnailBean thumbnailBean = new ThumbnailBean(title, rate, imgurl, item_id);
-                num++;
-                int rank = num + (page - 1) * 24;
+                    String item_id = (li.attr("id").split("_"))[1];
+                    ThumbnailBean thumbnailBean = new ThumbnailBean(title, rate, imgurl, item_id);
+                    num++;
+                    int rank = num + (page - 1) * 24;
 //                thumbnailBean.rank = rank;
-                list.add(thumbnailBean);
+                    list.add(thumbnailBean);
+                }
+
             }
 
         } catch (IOException e) {

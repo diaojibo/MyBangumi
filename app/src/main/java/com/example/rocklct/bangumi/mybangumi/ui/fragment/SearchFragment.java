@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.rocklct.bangumi.mybangumi.R;
 import com.example.rocklct.bangumi.mybangumi.ui.adapter.ThumbnailAdapter;
@@ -133,6 +134,8 @@ public class SearchFragment extends AbstractFragment implements HttpManager.OnCo
     @Override
     public void OnSuccess(List result) {
         if (result.isEmpty()) {
+            Toast.makeText(getContext(),"no results",Toast.LENGTH_LONG).show();
+            Util.loadAnima(mProgressBar, mRecyclerView);
             return;
         }
         Log.d("test", "onsuccess");
@@ -162,6 +165,8 @@ public class SearchFragment extends AbstractFragment implements HttpManager.OnCo
     @Override
     public void OnError(int tag) {
 
+        mProgressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(),"no results or network error",Toast.LENGTH_LONG).show();
     }
 
     public void load_thumbnail() {

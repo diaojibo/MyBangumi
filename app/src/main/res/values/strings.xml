@@ -29,5 +29,6 @@
     <string name="drop">抛弃</string>
     <string name="drop_collection">弃番</string>
     <string name="undo">撤销</string>
+    <string name="search">search</string>
 
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
@@ -35,6 +36,15 @@ public class AbstractActivity extends AppCompatActivity implements NavigationVie
     protected DrawerLayout mDrawerLayout;
     protected View nav_header;
     ImageLoader mImageLoader = ImageLoader.getmInstance();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_drawer);
+        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.mytoolbar);
+        setSupportActionBar(toolbar);
+    }
 
     //Search_Function
     @Override
@@ -70,7 +80,11 @@ public class AbstractActivity extends AppCompatActivity implements NavigationVie
                 return false;
             }
         });
-        return super.onCreateOptionsMenu(menu);
+        if(searchView == menuItem){
+
+            Log.d("newt","swearch");
+        }
+        return true;
     }
 
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -119,7 +133,7 @@ public class AbstractActivity extends AppCompatActivity implements NavigationVie
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override
