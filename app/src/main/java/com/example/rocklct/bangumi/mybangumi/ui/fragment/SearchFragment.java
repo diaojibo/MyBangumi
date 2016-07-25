@@ -136,7 +136,6 @@ public class SearchFragment extends AbstractFragment implements HttpManager.OnCo
         if (result.isEmpty()) {
             Toast.makeText(getContext(),"no results",Toast.LENGTH_LONG).show();
             Util.loadAnima(mProgressBar, mRecyclerView);
-            loadView.findViewById(R.id.loading_layout).setVisibility(View.GONE);
             return;
         }
         Log.d("test", "onsuccess");
