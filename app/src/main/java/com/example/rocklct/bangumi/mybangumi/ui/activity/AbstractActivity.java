@@ -93,29 +93,35 @@ public class AbstractActivity extends AppCompatActivity implements NavigationVie
 
         if (id == R.id.login) {
             startActivity(new Intent(activity, LoginActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
 
 
         if (id == R.id.animation) {
             startActivity(new Intent(activity, MainActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
         if (id == R.id.book) {
             startActivity(new Intent(activity, BookMainActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
 
         if (id == R.id.music) {
             startActivity(new Intent(activity, MusicMainActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
         if (id == R.id.game) {
             startActivity(new Intent(activity, GameMainActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
         if (id == R.id.real) {
             startActivity(new Intent(activity, RealMainActivity.class));
+            mDrawerLayout.closeDrawers();
             return false;
         }
         return false;
