@@ -18,10 +18,6 @@ public class MainActivity extends AbstractActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main_drawer);
-//        toolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.mytoolbar);
-//        setSupportActionBar(toolbar);
-//        toolbar.setNavigationIcon(R.drawable.testicon);
         initTabs();
         initDrawer();
     }
