@@ -31,6 +31,7 @@ public abstract class AbstractSwipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mSwipeLayout = new SwipeLayout(this);
         screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+
     }
 
     @Override
